@@ -1,0 +1,16 @@
+{
+  "name": "roommates",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"test\"",
+    "lint:commit": "cd frontend && npm run lint:commit && cd ../backend && npm run lint:commit",
+    "prepare": "husky install"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "^8.0.0"
+  }
+}
