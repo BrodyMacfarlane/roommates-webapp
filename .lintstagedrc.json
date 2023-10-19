@@ -1,11 +1,10 @@
 {
-  "*.ts": [
-    "prettier --write",
+  "frontend/**/*{.js,.jsx,.ts,.tsx}": [
+    "prettier --check",
     "eslint"
   ],
-  "*.tsx": [
-    "eslint",
-    "prettier --write"
-  ],
-  "*.css": "prettier --write"
+  "backend/**/*{.js,.ts}": [
+    "prettier --check",
+    "eslint"
+  ]
 }
