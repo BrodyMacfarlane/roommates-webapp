@@ -8,7 +8,7 @@ export default function Login() {
   return (
     <main className="pt-0">
       <HeroBackground hideMobile>
-        <div className="py-24">
+        <div className="pt-24 pb-12">
           <LargeForm form={<LoginForm />} image={Quiggo} />
         </div>
       </HeroBackground>

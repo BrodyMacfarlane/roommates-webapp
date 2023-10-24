@@ -66,7 +66,7 @@ export default function SignInForm() {
       <div className="space-y-2">
         <Image
           className="mx-auto"
-          src="logo-small.svg"
+          src="/logo-small.svg"
           alt="RM8s"
           width={48}
           height={48}

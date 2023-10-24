@@ -7,7 +7,7 @@
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
-    --card: 0 0% 100%;
+    --card: 210 40% 96.1%;
     --card-foreground: 222.2 84% 4.9%;
 
     --popover: 0 0% 100%;
@@ -41,7 +41,7 @@
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
+    --card: 210 80% 8.9%;
     --card-foreground: 210 40% 98%;
 
     --popover: 222.2 84% 4.9%;
@@ -79,15 +79,11 @@
   }
 
   main {
-    @apply pt-24 min-h-screen;
+    @apply pt-28 min-h-screen;
   }
 
-  section.sc {
-    @apply container py-16 lg:py-24;
-  }
-
-  section.sc:first-child {
-    @apply pt-0;
+  section {
+    @apply container;
   }
 
   a {

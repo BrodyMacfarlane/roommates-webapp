@@ -25,7 +25,7 @@ export default function HeroBackground({
         )}
       >
         <Image
-          src="items-bg.svg"
+          src="/items-bg.svg"
           alt=""
           fill
           className="object-cover object-right"
@@ -33,7 +33,7 @@ export default function HeroBackground({
       </div>
       <div className="hidden lg:block absolute z-0 right-0 top-0 h-full w-full max-w-lg xl:max-w-2xl">
         <Image
-          src="items-bg-reversed.svg"
+          src="/items-bg-reversed.svg"
           alt=""
           fill
           className="object-cover object-left"

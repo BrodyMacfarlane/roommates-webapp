@@ -13,7 +13,7 @@ export default function Navbar() {
         <div className="flex items-center gap-9">
           <Link href="/">
             <Image
-              src="logo.svg"
+              src="/logo.svg"
               alt="RM8s"
               width={108}
               height={64}

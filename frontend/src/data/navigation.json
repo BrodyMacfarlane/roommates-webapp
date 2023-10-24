@@ -2,7 +2,14 @@
   "navbar": {
     "menus": [
       {
-        "name": "Tools"
+        "name": "Tools",
+        "links": [
+          {
+            "name": "Contribution Calculator",
+            "description": "Calculate an equitable financial contribution based on each contributor's income.",
+            "href": "/tools/contribution-calc"
+          }
+        ]
       }
     ],
     "links": [
