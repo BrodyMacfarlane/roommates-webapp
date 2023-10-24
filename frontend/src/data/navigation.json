@@ -1,5 +1,10 @@
 {
   "navbar": {
+    "menus": [
+      {
+        "name": "Tools"
+      }
+    ],
     "links": [
       {
         "name": "About",
@@ -10,5 +15,6 @@
         "href": "/contact"
       }
     ]
-  }
+  },
+  "footer": {}
 }

@@ -73,7 +73,7 @@ export default function SignInForm() {
           draggable={false}
         />
         <div className="">
-          <h4>Log in to Your Account</h4>
+          <h3>Log in to Your Account</h3>
           <p className="text-muted-foreground">
             Please enter your email and password.
           </p>
