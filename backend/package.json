@@ -5,11 +5,17 @@
   "scripts": {
     "dev": "node ace serve --watch",
     "build": "node ace build --production",
-    "start": "cd build && node server.js",
+    "build:digitalocean": "node ace build --production",
+    "start:dev": "node server.js",
+    "start": "cd build && npm ci --production && node server.js",
     "test": "node ace test",
     "lint": "eslint . --ext=.ts",
     "format": "prettier --write .",
     "lint:commit": "npm run format && npm run lint"
+  },
+  "engines": {
+    "npm": "9.6.7",
+    "node": "18.17.0"
   },
   "eslintConfig": {
     "extends": [
