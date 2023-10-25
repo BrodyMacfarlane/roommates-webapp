@@ -30,6 +30,8 @@ import FormError from '@/components/forms/FormError'
 
 import validator from 'validator'
 import { passwordValidate } from '@/util/validation'
+import useSwr from 'swr'
+import { apiAxios } from '@/util/api'
 
 const formSchema = z
   .object({
@@ -50,7 +52,11 @@ const formSchema = z
     confirmPassword: z.string().min(1, {
       message: 'Please enter your Password.',
     }),
-    terms: z.boolean(),
+    terms: z.literal<boolean>(true, {
+      errorMap: () => ({
+        message: 'You must accept the listed terms of use and privacy policy.',
+      }),
+    }),
   })
   .superRefine(({ confirmPassword, password }, ctx) => {
     if (confirmPassword !== password) {
@@ -74,17 +80,32 @@ export default function SignUpForm() {
   })
 
   const [signUpError, setSignUpError] = useState(null as string | null)
+  const [submittingForm, setSubmittingForm] = useState(false)
   const email = form.watch('email')
   const password = form.watch('password')
   const terms = form.watch('terms')
 
-  const onSubmit = () => {
+  async function onSubmit() {
     const { email, password, terms } = form.getValues()
+    setSubmittingForm(true)
+
+    try {
+      const response = await apiAxios.post('/user', {
+        email,
+        password,
+        terms,
+      })
+
+      console.log(response)
+    } catch (err: any) {
+      setSignUpError(err.message ? err.message : err)
+      setSubmittingForm(false)
+    }
   }
 
   useEffect(() => {
     setSignUpError(null)
-  }, [email, password])
+  }, [email, password, terms])
 
   return (
     <div className="space-y-4 mx-auto w-full max-w-lg flex flex-col gap-2 text-center justify-center col-start-1 lg:col-start-2 col-span-2 lg:col-span-1 my-2 lg:my-12 py-2 sm:py-20 sm:px-8 lg:px-12">
@@ -170,7 +191,7 @@ export default function SignUpForm() {
                 name="terms"
                 render={({ field }) => (
                   <FormItem>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-3">
                       <FormControl>
                         <Checkbox
                           id="terms"
@@ -183,13 +204,21 @@ export default function SignUpForm() {
                           htmlFor="terms"
                           className="text-sm font-normal text-muted-foreground"
                         >
-                          I agree to the Roommates{' '}
+                          I agree to the Roommates&nbsp;
                           <Link
-                            className="text-roommates-blue font-medium hover:border-b-2 border-roommates-purple"
+                            className="text-roommates-blue font-semibold hover:border-b-2 border-roommates-purple"
                             href="/"
                           >
-                            Terms of Use.
+                            Terms of Use
                           </Link>
+                          &nbsp;and&nbsp;
+                          <Link
+                            className="text-roommates-blue font-semibold hover:border-b-2 border-roommates-purple"
+                            href="/"
+                          >
+                            Privacy Policy
+                          </Link>
+                          .
                         </FormLabel>
                       </div>
                     </div>
@@ -199,7 +228,13 @@ export default function SignUpForm() {
               />
             </div>
             <div>
-              <Button id="signup" className="w-full md:text-base" type="submit">
+              <Button
+                id="signup"
+                className="w-full md:text-base"
+                type="submit"
+                fetchText="Creating Account"
+                fetching={submittingForm}
+              >
                 Create Account
               </Button>
             </div>
