@@ -6,7 +6,6 @@ module.exports = {
   }],
   deploy: {
     production: {
-      key: 'github_action_key',
       user: 'root',
       host: '159.223.192.156',
       ref: 'origin/main',
