@@ -12,7 +12,7 @@ module.exports = {
       repo: 'git@github.com:BrodyMacfarlane/roommates-webapp.git',
       path: '/root/roommates-webapp',
       'pre-deploy-local': '',
-      'post-deploy': 'cd /root/roommates-webapp/current/backend && npm install && npm run build && cd build && cp /root/roommates-webapp/backend/.env .env && pm2 stop all && pm2 delete all && pm2 start /root/roommates-webapp/current/ecosystem.config.js',
+      'post-deploy': 'cd /root/roommates-webapp/current/backend && npm install && npm run build && cd build && cp /root/roommates-webapp/backend/.env .env && npm ci --production && pm2 stop all && pm2 delete all && pm2 start /root/roommates-webapp/current/ecosystem.config.js',
       'pre-setup': ''
     }
   }
