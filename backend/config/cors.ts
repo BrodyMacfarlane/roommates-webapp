@@ -46,7 +46,7 @@ const corsConfig: CorsConfig = {
   */
   origin:
     process.env.NODE_ENV === 'production'
-      ? ['https://room8s.app/', 'https://www.room8s.app/']
+      ? ['https://room8s.app', 'https://www.room8s.app']
       : ['http://localhost:3000'],
 
   /*
