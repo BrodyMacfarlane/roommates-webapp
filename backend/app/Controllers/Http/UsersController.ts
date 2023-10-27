@@ -4,7 +4,7 @@ import User from 'App/Models/User'
 import CreateUserValidator from 'App/Validators/CreateUserValidator'
 
 export default class UsersController {
-  async login({ auth, request, response }: HttpContextContract) {
+  public async login({ auth, request, response }: HttpContextContract) {
     const email = request.input('email')
     const password = request.input('password')
 
@@ -12,7 +12,7 @@ export default class UsersController {
     return response.status(200)
   }
 
-  async create(ctx: HttpContextContract) {
+  public async create(ctx: HttpContextContract) {
     const email = ctx.request.input('email')
     const password = ctx.request.input('password')
 
@@ -26,12 +26,11 @@ export default class UsersController {
     return ctx.response.status(200)
   }
 
-  async loggedInUser({ auth, response }: HttpContextContract) {
+  public async loggedInUser({ auth, response }: HttpContextContract) {
     await auth.use('web').check()
     if (auth.isLoggedIn) {
       response.send(auth.user)
-    }
-    else {
+    } else {
       return response.status(401)
     }
   }
