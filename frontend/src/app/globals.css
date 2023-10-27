@@ -79,7 +79,7 @@
   }
 
   main {
-    @apply pt-28 min-h-screen;
+    @apply pt-28 min-h-screen animate-fade-in;
   }
 
   section {
