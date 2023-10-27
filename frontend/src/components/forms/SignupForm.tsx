@@ -83,16 +83,18 @@ export default function SignUpForm() {
   const [submittingForm, setSubmittingForm] = useState(false)
   const email = form.watch('email')
   const password = form.watch('password')
+  const confirmPassword = form.watch('confirmPassword')
   const terms = form.watch('terms')
 
   async function onSubmit() {
-    const { email, password, terms } = form.getValues()
+    const { email, password, terms, confirmPassword } = form.getValues()
     setSubmittingForm(true)
 
     try {
       const response = await apiAxios.post('/user', {
         email,
         password,
+        password_confirmation: confirmPassword,
         terms,
       })
 
@@ -105,7 +107,7 @@ export default function SignUpForm() {
 
   useEffect(() => {
     setSignUpError(null)
-  }, [email, password, terms])
+  }, [email, password, confirmPassword, terms])
 
   return (
     <div className="space-y-4 mx-auto w-full max-w-lg flex flex-col gap-2 text-center justify-center col-start-1 lg:col-start-2 col-span-2 lg:col-span-1 my-2 lg:my-12 py-2 sm:py-20 sm:px-8 lg:px-12">
