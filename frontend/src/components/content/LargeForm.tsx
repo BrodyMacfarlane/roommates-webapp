@@ -20,7 +20,7 @@ export default function LargeForm({
           placeholder="blur"
         />
       </div>
-      <div className="bg-white dark:bg-gray-900 h-full flex w-full justify-center items-center">
+      <div className="bg-background h-full flex w-full justify-center items-center">
         {form}
       </div>
     </div>

@@ -43,13 +43,14 @@ export default function NavLinks() {
             <NavigationMenuTrigger>{navMenu.name}</NavigationMenuTrigger>
             <NavigationMenuContent>
               <div className="p-2">
-                <div className="flex gap-4">
-                  <div className="rounded-lg bg-gradient-to-br from-roommates-purple to-roommates-blue min-w-[120px] p-6 text-white text-3xl flex justify-center items-center">
+                <div className="flex gap-2">
+                  <div className="rounded-lg bg-gradient-to-br from-roommates-purple to-roommates-blue min-w-[120px] px-4 py-6 text-white text-3xl flex justify-center items-center">
                     <FaTools />
                   </div>
-                  <div className="h-full">
+                  <div className="h-full w-full">
                     {navMenu.links.map((navMenuLink) => (
                       <Link
+                        className="w-full"
                         key={navMenuLink.name}
                         href={navMenuLink.href}
                         legacyBehavior

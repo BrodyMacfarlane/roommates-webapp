@@ -8,7 +8,7 @@ import { HiMenuAlt3 } from 'react-icons/hi'
 
 export default function Navbar() {
   return (
-    <nav className="fixed z-50 top-0 left-0 w-full flex justify-center items-center shadow-md border-b border-slate-50 dark:border-primary bg-white dark:bg-gray-900">
+    <nav className="fixed z-50 top-0 left-0 w-full flex justify-center items-center shadow-md border-b border-border bg-background">
       <div className="py-4 flex gap-4 container items-center justify-between">
         <div className="flex items-center gap-9">
           <Link href="/">

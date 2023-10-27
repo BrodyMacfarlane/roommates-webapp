@@ -13,7 +13,7 @@ export default function HeroBackground({
       className={cn(
         'relative min-h-screen flex items-center',
         hideMobile
-          ? 'bg-white dark:bg-gray-900 md:bg-gradient-to-b md:from-roommates-purple md:to-roommates-blue'
+          ? 'bg-background md:bg-gradient-to-b md:from-roommates-purple md:to-roommates-blue'
           : 'bg-gradient-to-b from-roommates-purple to-roommates-blue'
       )}
     >

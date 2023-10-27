@@ -152,7 +152,7 @@ export default function SignInForm() {
             </div>
             <div className="relative w-full text-center">
               <div className="absolute top-1/2 left-0 h-[2px] bg-slate-200 w-full rounded-full"></div>
-              <p className="relative inline-block z-[1] bg-white dark:bg-gray-900 text-muted-foreground text-sm px-2">
+              <p className="relative inline-block z-[1] bg-background dark:bg-background text-muted-foreground text-sm px-2">
                 Don&apos;t have an account?
               </p>
             </div>

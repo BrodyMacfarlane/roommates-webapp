@@ -8,6 +8,11 @@
             "name": "Contribution Calculator",
             "description": "Calculate an equitable financial contribution based on each contributor's income.",
             "href": "/tools/contribution-calc"
+          },
+          {
+            "name": "Geo Fence",
+            "description": "Super secret easter egg.  Must be super, super sexy to view this page.",
+            "href": "/tools/geo-fence"
           }
         ]
       }

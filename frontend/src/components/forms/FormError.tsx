@@ -5,5 +5,5 @@ export default function FormError({
 }: {
   errorMessage: string | null
 }) {
-  return errorMessage && <div className="text-red-500">{errorMessage}</div>
+  return errorMessage && <div className="text-destructive">{errorMessage}</div>
 }
