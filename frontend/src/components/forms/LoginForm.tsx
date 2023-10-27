@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Button, buttonVariants } from '@/components/ui/button'
 
 import {
@@ -27,6 +27,7 @@ import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import FormError from './FormError'
+import { apiAxios } from '@/util/api'
 
 const formSchema = z.object({
   email: z.string().min(1, {
@@ -49,12 +50,43 @@ export default function SignInForm() {
   })
 
   const [loginError, setLoginError] = useState(null as string | null)
+  const [submittingForm, setSubmittingForm] = useState(false)
   const email = form.watch('email')
   const password = form.watch('password')
   const rememberMe = form.watch('rememberMe')
+  const router = useRouter()
+  const query = useSearchParams()
+  const redirectUrl = query.get('redirectUrl')
 
-  const onSubmit = () => {
+  async function onSubmit() {
+    setSubmittingForm(true)
     const { email, password, rememberMe } = form.getValues()
+
+    try {
+      const response = await apiAxios.post('/login', {
+        email,
+        password,
+        rememberMe,
+      })
+
+      if (response.status === 200)
+        return router.push(redirectUrl ? redirectUrl : '/dashboard')
+      else {
+        setLoginError(
+          'Error occurred while attempting login. Please try again later.'
+        )
+        setSubmittingForm(false)
+      }
+    } catch (err: any) {
+      setLoginError(
+        err.response.data.error
+          ? err.response.data.error
+          : err.message
+          ? err.message
+          : err
+      )
+      setSubmittingForm(false)
+    }
   }
 
   useEffect(() => {
@@ -146,7 +178,13 @@ export default function SignInForm() {
               )}
             />
             <div>
-              <Button id="signin" className="w-full md:text-base" type="submit">
+              <Button
+                id="signin"
+                className="w-full md:text-base"
+                fetchText="Attempting log in"
+                fetching={submittingForm}
+                type="submit"
+              >
                 Login
               </Button>
             </div>

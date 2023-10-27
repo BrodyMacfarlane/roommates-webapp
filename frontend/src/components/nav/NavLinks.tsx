@@ -17,6 +17,7 @@ import {
   navigationMenuTriggerStyle,
   navigationMenuContentTriggerStyle,
 } from '@/components/ui/navigation-menu'
+import { HiTemplate } from 'react-icons/hi'
 
 type NavLink = {
   name: string
@@ -34,6 +35,23 @@ type NavMenuLink = {
   href: string
 }
 
+function DropDownIcon({ name }: { name: string }) {
+  switch (name) {
+    case 'Tools':
+      return (
+        <span className="text-3xl">
+          <FaTools />
+        </span>
+      )
+    case 'App':
+      return (
+        <span className="text-4xl">
+          <HiTemplate />
+        </span>
+      )
+  }
+}
+
 export default function NavLinks() {
   return (
     <NavigationMenu>
@@ -44,8 +62,8 @@ export default function NavLinks() {
             <NavigationMenuContent>
               <div className="p-2">
                 <div className="flex gap-2">
-                  <div className="rounded-lg bg-gradient-to-br from-roommates-purple to-roommates-blue min-w-[120px] px-4 py-6 text-white text-3xl flex justify-center items-center">
-                    <FaTools />
+                  <div className="rounded-lg bg-gradient-to-br from-roommates-purple to-roommates-blue min-w-[120px] px-4 py-6 text-white flex justify-center items-center">
+                    <DropDownIcon name={navMenu.name} />
                   </div>
                   <div className="h-full w-full">
                     {navMenu.links.map((navMenuLink) => (

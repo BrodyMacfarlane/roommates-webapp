@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Button, buttonVariants } from '@/components/ui/button'
 
 import {
@@ -85,6 +85,9 @@ export default function SignUpForm() {
   const password = form.watch('password')
   const confirmPassword = form.watch('confirmPassword')
   const terms = form.watch('terms')
+  const router = useRouter()
+  const query = useSearchParams()
+  const redirectUrl = query.get('redirectUrl')
 
   async function onSubmit() {
     const { email, password, terms, confirmPassword } = form.getValues()
@@ -98,7 +101,14 @@ export default function SignUpForm() {
         terms,
       })
 
-      console.log(response)
+      if (response.status === 200)
+        return router.push(redirectUrl ? redirectUrl : '/dashboard')
+      else {
+        setSignUpError(
+          'Error occurred during account creation. Please try again later.'
+        )
+        setSubmittingForm(false)
+      }
     } catch (err: any) {
       setSignUpError(err.message ? err.message : err)
       setSubmittingForm(false)
