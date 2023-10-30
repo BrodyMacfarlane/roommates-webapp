@@ -17,6 +17,32 @@ import Logger from '@ioc:Adonis/Core/Logger'
 import HttpExceptionHandler from '@ioc:Adonis/Core/HttpExceptionHandler'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
+type ValidationError = {
+  rule: string
+  field: string
+  message: string
+}
+
+function getValidationErrorCodeAndString(error: ValidationError) {
+  try {
+    let field = 'Field'
+    let msg = 'is invalid.'
+    let code = 400
+
+    field = `${error.field.charAt(0).toUpperCase()}${error.field.slice(1)}`
+
+    switch (error.rule) {
+      case 'unique':
+        code = 409
+        msg = 'already in use.'
+    }
+
+    return { code, message: `${field} ${msg}` }
+  } catch (err) {
+    return { code: 400, message: 'Unknown error occurred during validation.' }
+  }
+}
+
 export default class ExceptionHandler extends HttpExceptionHandler {
   constructor() {
     super(Logger)
@@ -26,8 +52,18 @@ export default class ExceptionHandler extends HttpExceptionHandler {
     /**
      * Self handle the validation exception
      */
-    if (error.code === 'E_INVALID_AUTH_PASSWORD') {
-      return ctx.response.status(401).send({ error: 'Invalid email and/or password.' })
+
+    switch (error.code) {
+      case 'E_INVALID_AUTH_PASSWORD':
+        return ctx.response.status(401).send({ error: 'Invalid email and/or password.' })
+      case 'E_INVALID_AUTH_UID':
+        return ctx.response.status(401).send({ error: 'Invalid email and/or password.' })
+      case 'E_VALIDATION_FAILURE':
+        const firstError = error.messages?.errors[0]
+        const validationErrorString = getValidationErrorCodeAndString(firstError)
+        return ctx.response
+          .status(validationErrorString.code)
+          .send({ error: validationErrorString.message })
     }
 
     /**

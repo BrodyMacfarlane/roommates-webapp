@@ -110,7 +110,13 @@ export default function SignUpForm() {
         setSubmittingForm(false)
       }
     } catch (err: any) {
-      setSignUpError(err.message ? err.message : err)
+      setSignUpError(
+        err.response.data.error
+          ? err.response.data.error
+          : err.message
+          ? err.message
+          : err
+      )
       setSubmittingForm(false)
     }
   }
