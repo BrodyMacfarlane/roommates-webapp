@@ -38,11 +38,13 @@
       "links": [
         {
           "name": "About",
-          "href": "/about"
+          "href": "/about",
+          "description": "Read more about the platform and how to utilize all of its functions."
         },
         {
           "name": "Contact",
-          "href": "/contact"
+          "href": "/contact",
+          "description": "Contact us for any reason, including requests for new features or bugfixes."
         }
       ]
     },

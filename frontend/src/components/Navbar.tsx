@@ -5,6 +5,7 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import NavLinks from '@/components/nav/NavLinks'
 import { HiMenuAlt3 } from 'react-icons/hi'
+import MenuSheet from '@/components/sheets/MenuSheet'
 
 export default function Navbar() {
   return (
@@ -38,13 +39,9 @@ export default function Navbar() {
             <ThemeToggle />
           </div>
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="flex justify-center items-center md:hidden"
-        >
-          <HiMenuAlt3 className="w-7 h-7 text-gray-600 hover:text-primary dark:text-white" />
-        </Button>
+        <div className="md:hidden">
+          <MenuSheet />
+        </div>
       </div>
     </nav>
   )
