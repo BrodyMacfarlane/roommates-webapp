@@ -73,11 +73,12 @@ export default function GeoFenceClientPage() {
   if (position) {
     return (
       <>
+        <p className="text-destructive">{locationError}</p>
         <p>{position.latitude}</p>
         <p>{position.longitude}</p>
         <p>{position.speed}</p>
         <p>
-          current km from point:{' '}
+          current feet from point:{' '}
           {getDistanceFromLatLonInKm(
             position.latitude,
             position.longitude,
