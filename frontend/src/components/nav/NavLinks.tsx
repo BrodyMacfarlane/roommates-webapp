@@ -56,7 +56,7 @@ export default function NavLinks() {
   return (
     <NavigationMenu>
       <NavigationMenuList>
-        {navigation.navbar.menus.map((navMenu: NavMenu) => (
+        {navigation.desktop.navbar.menus.map((navMenu: NavMenu) => (
           <NavigationMenuItem key={navMenu.name}>
             <NavigationMenuTrigger>{navMenu.name}</NavigationMenuTrigger>
             <NavigationMenuContent>
@@ -94,7 +94,7 @@ export default function NavLinks() {
             </NavigationMenuContent>
           </NavigationMenuItem>
         ))}
-        {navigation.navbar.links.map((navLink: NavLink) => (
+        {navigation.desktop.navbar.links.map((navLink: NavLink) => (
           <NavigationMenuItem key={navLink.name}>
             <Link href={navLink.href} legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>

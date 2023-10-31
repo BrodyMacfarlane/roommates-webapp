@@ -1,49 +1,52 @@
 {
-  "navbar": {
-    "menus": [
-      {
-        "name": "App",
-        "links": [
-          {
-            "name": "Dashboard",
-            "description": "View your tasks along with their respective historical data.",
-            "href": "/dashboard"
-          },
-          {
-            "name": "Add or Manage Tasks",
-            "description": "Add a new task, manage existing ones, or make changes to their respective notification specs.",
-            "href": "/tasks"
-          }
-        ],
-        "auth": true
-      },
-      {
-        "name": "Tools",
-        "links": [
-          {
-            "name": "Contribution Calculator",
-            "description": "Calculate an equitable financial contribution based on each contributor's income.",
-            "href": "/tools/contribution-calc"
-          },
-          {
-            "name": "Geo Fence",
-            "description": "Super secret easter egg.  Must be super, super sexy to view this page.",
-            "href": "/tools/geo-fence"
-          }
-        ],
-        "auth": false
-      }
-    ],
-    "links": [
-      {
-        "name": "About",
-        "href": "/about"
-      },
-      {
-        "name": "Contact",
-        "href": "/contact"
-      }
-    ]
+  "desktop": {
+    "navbar": {
+      "menus": [
+        {
+          "name": "App",
+          "links": [
+            {
+              "name": "Dashboard",
+              "description": "View your tasks along with their respective historical data.",
+              "href": "/dashboard"
+            },
+            {
+              "name": "Add or Manage Tasks",
+              "description": "Add a new task, manage existing ones, or make changes to their respective notification specs.",
+              "href": "/tasks"
+            }
+          ],
+          "auth": true
+        },
+        {
+          "name": "Tools",
+          "links": [
+            {
+              "name": "Contribution Calculator",
+              "description": "Calculate an equitable financial contribution based on each contributor's income.",
+              "href": "/tools/contribution-calc"
+            },
+            {
+              "name": "Geo Fence",
+              "description": "Super secret easter egg.  Must be super, super sexy to view this page.",
+              "href": "/tools/geo-fence"
+            }
+          ],
+          "auth": false
+        }
+      ],
+      "links": [
+        {
+          "name": "About",
+          "href": "/about"
+        },
+        {
+          "name": "Contact",
+          "href": "/contact"
+        }
+      ]
+    },
+    "footer": {}
   },
-  "footer": {}
+  "mobile": {}
 }
