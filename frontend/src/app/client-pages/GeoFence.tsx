@@ -12,19 +12,25 @@ const watchOptions: PositionOptions = {
   maximumAge: 5 * 60 * 60 * 1000,
 }
 
-
 function deg2rad(deg: number) {
   return deg * (Math.PI / 180)
 }
 
-function getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number) {
+function getDistanceFromLatLonInKm(
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number
+) {
   const R = 6371 // Radius of the earth in km
   const dLat = deg2rad(lat2 - lat1)
   const dLon = deg2rad(lon2 - lon1)
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2)
+    Math.cos(deg2rad(lat1)) *
+      Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2)
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
   const d = R * c // Distance in km
   const dFeet = (d * 3280.8399).toFixed()
@@ -32,7 +38,9 @@ function getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon
 }
 
 export default function GeoFenceClientPage() {
-  const [position, setPosition] = useState<GeolocationCoordinates | null>(initialPositionState)
+  const [position, setPosition] = useState<GeolocationCoordinates | null>(
+    initialPositionState
+  )
   const [locationError, setLocationError] = useState<string | null>(null)
   const fence = { center: { lat: 40.775229, lon: -111.734441 }, rad: 10 }
 
@@ -68,7 +76,15 @@ export default function GeoFenceClientPage() {
         <p>{position.latitude}</p>
         <p>{position.longitude}</p>
         <p>{position.speed}</p>
-        <p>current km from point: {getDistanceFromLatLonInKm(position.latitude, position.longitude, fence.center.lat, fence.center.lon)}</p>
+        <p>
+          current km from point:{' '}
+          {getDistanceFromLatLonInKm(
+            position.latitude,
+            position.longitude,
+            fence.center.lat,
+            fence.center.lon
+          )}
+        </p>
       </>
     )
   }
