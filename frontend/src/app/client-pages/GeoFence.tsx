@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { HiLocationMarker } from 'react-icons/hi'
 
 const initialPositionState: GeolocationCoordinates | null = null
@@ -43,6 +43,9 @@ export default function GeoFenceClientPage() {
   )
   const [locationError, setLocationError] = useState<string | null>(null)
   const fence = { center: { lat: 40.775229, lon: -111.734441 }, rad: 10 }
+  const [distanceFromPoint, setDistanceFromPoint] = useState<string | null>(
+    null
+  )
 
   const successCb = useCallback(
     (position: GeolocationPosition) => {
@@ -53,6 +56,7 @@ export default function GeoFenceClientPage() {
         position.coords.speed
       )
       setPosition(position.coords)
+      setLocationError(null)
     },
     [setPosition]
   )
@@ -70,6 +74,24 @@ export default function GeoFenceClientPage() {
     navigator.geolocation.watchPosition(successCb, errorCb, watchOptions)
   }
 
+  useEffect(() => {
+    if (!position) return
+    setDistanceFromPoint(
+      getDistanceFromLatLonInKm(
+        position.latitude,
+        position.longitude,
+        fence.center.lat,
+        fence.center.lon
+      )
+    )
+  }, [
+    position,
+    position?.latitude,
+    position?.longitude,
+    fence.center.lat,
+    fence.center.lon,
+  ])
+
   if (position) {
     return (
       <>
@@ -77,15 +99,7 @@ export default function GeoFenceClientPage() {
         <p>{position.latitude}</p>
         <p>{position.longitude}</p>
         <p>{position.speed}</p>
-        <p>
-          current feet from point:{' '}
-          {getDistanceFromLatLonInKm(
-            position.latitude,
-            position.longitude,
-            fence.center.lat,
-            fence.center.lon
-          )}
-        </p>
+        <p>current feet from point: {distanceFromPoint}</p>
       </>
     )
   }
