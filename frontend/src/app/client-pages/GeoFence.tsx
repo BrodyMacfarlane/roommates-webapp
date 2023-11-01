@@ -42,7 +42,7 @@ export default function GeoFenceClientPage() {
     initialPositionState
   )
   const [locationError, setLocationError] = useState<string | null>(null)
-  const fence = { center: { lat: 40.775229, lon: -111.734441 }, rad: 10 }
+  const fence = { center: { lat: 40.782581, lon: -111.981183 }, rad: 10 }
   const [distanceFromPoint, setDistanceFromPoint] = useState<string | null>(
     null
   )
