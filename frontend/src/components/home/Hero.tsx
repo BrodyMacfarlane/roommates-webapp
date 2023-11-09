@@ -13,7 +13,7 @@ export default function Hero() {
       <div className="my-9 flex flex-col justify-center items-center gap-2 py-16 lg:py-24">
         <div className="max-w-3xl w-full text-white space-y-9">
           <FreeBadge />
-          <WavyText text="Offload Adulty,/Time-related Tasks" />
+          <WavyText duration={0.01} text="Offload Adulty,/Time-related Tasks" />
           <HeroContent />
         </div>
       </div>

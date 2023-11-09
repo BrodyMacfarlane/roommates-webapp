@@ -9,7 +9,7 @@ import Link from 'next/link'
 export default function HeroContent() {
   return (
     <motion.div
-      variants={container({ stagger: 0.5, delay: 1 })}
+      variants={container({ stagger: 0.5, delay: 0.5 })}
       initial="hidden"
       animate={'visible'}
       className="space-y-9"
