@@ -23,7 +23,7 @@ const WavyText: FC<Props> = ({
       className="text-center leading-tight text-white text-4xl md:text-6xl lg:text-7xl"
       variants={container({ stagger: duration })}
       initial="hidden"
-      animate={'visible'}
+      animate="visible"
       {...props}
     >
       {letters.map((letter, index) => {

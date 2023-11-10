@@ -38,3 +38,22 @@ export const child: Variants = {
     },
   },
 }
+
+export const enterFromSide: Variants = {
+  initial: {
+    x: -250,
+    transition: {
+      type: 'spring',
+      damping: 12,
+      stiffness: 200,
+    },
+  },
+  animate: {
+    x: 0,
+    transition: {
+      type: 'spring',
+      damping: 12,
+      stiffness: 200,
+    },
+  },
+}

@@ -5,6 +5,12 @@ export default class TaskHistory extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  @column()
+  public taskId: number
+
+  @column.dateTime()
+  public completionDate: DateTime
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

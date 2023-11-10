@@ -1,5 +1,6 @@
 'use client'
 
+import useCookie from '@/hooks/use-cookie'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 import type { ReactNode } from 'react'
@@ -13,6 +14,8 @@ export function AuthWrapper({ children }: { children: ReactNode }) {
   const [auth, setAuth]: [Auth, Dispatch<SetStateAction<Auth>>] = useState(
     null as Auth
   )
+
+  const cookie = useCookie()
 
   return (
     <AuthContext.Provider value={[auth, setAuth]}>

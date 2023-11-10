@@ -5,7 +5,7 @@ export default class extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id')
+      table.increments('id').primary()
       table.string('email', 255).unique().notNullable()
       table.boolean('is_email_confirmed').defaultTo(false).notNullable()
       table.string('password', 10000).notNullable()

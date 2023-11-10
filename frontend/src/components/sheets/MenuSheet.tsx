@@ -47,7 +47,7 @@ export default function MenuSheet() {
                       href={navLink.href}
                       className="w-full"
                     >
-                      <Card className="p-4 my-2">
+                      <Card className="my-2">
                         <p className="w-full text-lg">{navLink.name}</p>
                         <p className="text-muted-foreground text-sm">
                           {navLink.description}
@@ -64,7 +64,7 @@ export default function MenuSheet() {
               <div key={navLink.name}>
                 <Link key={navLink.name} href={navLink.href} className="w-full">
                   <Card className="bg-primary/10">
-                    <div className="p-4">
+                    <div>
                       <p className="w-full text-lg font-semibold text-primary">
                         {navLink.name}
                       </p>

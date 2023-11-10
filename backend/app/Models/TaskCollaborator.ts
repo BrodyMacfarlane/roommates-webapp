@@ -5,6 +5,12 @@ export default class TaskCollaborator extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  @column()
+  public taskId: number
+
+  @column()
+  public userId: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

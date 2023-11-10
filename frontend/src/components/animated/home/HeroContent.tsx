@@ -11,7 +11,7 @@ export default function HeroContent() {
     <motion.div
       variants={container({ stagger: 0.5, delay: 0.5 })}
       initial="hidden"
-      animate={'visible'}
+      animate="visible"
       className="space-y-9"
     >
       <motion.p
