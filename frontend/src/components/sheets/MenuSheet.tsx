@@ -1,3 +1,5 @@
+'use client'
+
 import { HiMenuAlt3 } from 'react-icons/hi'
 
 import { cn } from '@/lib/utils'
@@ -14,50 +16,75 @@ import {
 import { Button } from '@/components/ui/button'
 import navigation from '@/data/navigation.json'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Card } from '../ui/card'
+import { useAuthContext } from '@/state/context/AuthContext'
+import { useOpenSheetContext } from '../context/navbar/OpenSheetContext'
+import AnimatedLink from '../animated/AnimatedLink'
 
 export default function MenuSheet() {
+  const { auth } = useAuthContext()
+  const [openSheet, setOpenSheet] = useOpenSheetContext()
+
+  const handleOpenChange = (open: boolean) => {
+    if (open === true) setOpenSheet('nav')
+    else setOpenSheet(null)
+  }
+
   return (
-    <Sheet>
+    <Sheet open={openSheet === 'nav'} onOpenChange={handleOpenChange}>
       <SheetTrigger asChild>
         <Button
           variant="ghost"
           size="icon"
           className="flex justify-center items-center"
         >
-          <HiMenuAlt3 className="w-7 h-7 text-gray-600 hover:text-primary dark:text-white" />
+          <HiMenuAlt3 className="w-7 h-7" />
         </Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle></SheetTitle>
+          <SheetTitle>
+            <Image
+              className="mx-auto"
+              src="/logo-small.svg"
+              alt="RM8s"
+              width={48}
+              height={48}
+              draggable={false}
+            />
+          </SheetTitle>
           <SheetDescription></SheetDescription>
         </SheetHeader>
-        <div className="py-9">
+        <div className="py-3">
           <div className="space-y-6">
-            {navigation.desktop.navbar.menus.map((navMenu) => (
-              <div className="space-y-2" key={navMenu.name}>
-                <p className="font-semibold text-xl text-primary">
-                  {navMenu.name}
-                </p>
-                <div className="space-y-6">
-                  {navMenu.links.map((navLink) => (
-                    <Link
-                      key={navLink.name}
-                      href={navLink.href}
-                      className="w-full"
-                    >
-                      <Card variant="flat" className="my-2">
-                        <p className="w-full text-lg">{navLink.name}</p>
-                        <p className="text-muted-foreground text-sm">
-                          {navLink.description}
-                        </p>
-                      </Card>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ))}
+            {navigation.desktop.navbar.menus.map((navMenu) => {
+              if (!navMenu.auth || (auth && navMenu.auth)) {
+                return (
+                  <div className="space-y-2" key={navMenu.name}>
+                    <p className="font-semibold text-xl text-primary">
+                      {navMenu.name}
+                    </p>
+                    <div className="space-y-6">
+                      {navMenu.links.map((navLink) => (
+                        <Link
+                          key={navLink.name}
+                          href={navLink.href}
+                          className="w-full"
+                        >
+                          <Card variant="flat" className="my-2">
+                            <p className="w-full text-lg">{navLink.name}</p>
+                            <p className="text-muted-foreground text-sm">
+                              {navLink.description}
+                            </p>
+                          </Card>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )
+              }
+            })}
           </div>
           <div className="space-y-2 mt-9">
             {navigation.desktop.navbar.links.map((navLink) => (
@@ -79,9 +106,24 @@ export default function MenuSheet() {
           </div>
         </div>
         <SheetFooter>
-          {/* <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
-          </SheetClose> */}
+          <div className="space-y-2">
+            <AnimatedLink
+              linkProps={{ href: '/login' }}
+              buttonProps={{ className: 'w-full', size: 'lg' }}
+            >
+              Login
+            </AnimatedLink>
+            <AnimatedLink
+              linkProps={{ href: '/signup' }}
+              buttonProps={{
+                className: 'w-full',
+                variant: 'secondary',
+                size: 'lg',
+              }}
+            >
+              Get Started
+            </AnimatedLink>
+          </div>
         </SheetFooter>
       </SheetContent>
     </Sheet>

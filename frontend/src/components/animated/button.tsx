@@ -65,7 +65,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         size={size}
         fetching={fetching}
         fetchText={fetchText}
-        ref={ref}
         props={props}
         asChild={asChild}
       />

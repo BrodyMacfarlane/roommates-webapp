@@ -29,6 +29,8 @@ import Link from 'next/link'
 import FormError from './FormError'
 import { apiAxios } from '@/util/api'
 import AnimatedLink from '../animated/AnimatedLink'
+import { AuthUser } from '@/state/context/AuthContext'
+import { useAuthContext } from '@/state/context/AuthContext'
 
 const formSchema = z.object({
   email: z.string().min(1, {
@@ -41,6 +43,8 @@ const formSchema = z.object({
 })
 
 export default function SignInForm() {
+  const { setAuth, setAuthUser } = useAuthContext()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -64,15 +68,16 @@ export default function SignInForm() {
     const { email, password, rememberMe } = form.getValues()
 
     try {
-      const response = await apiAxios.post('/login', {
+      const response = await apiAxios.post<AuthUser>('/login', {
         email,
         password,
         rememberMe,
       })
 
-      if (response.status === 200)
+      if (response.status === 200) {
+        setAuthUser(response.data)
         return router.push(redirectUrl ? redirectUrl : '/dashboard')
-      else {
+      } else {
         setLoginError(
           'Error occurred while attempting login. Please try again later.'
         )

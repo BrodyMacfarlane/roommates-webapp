@@ -9,7 +9,6 @@ import { Loader2 } from 'lucide-react'
 import { ButtonProps, buttonVariants } from '@/components/animated/button'
 
 export default function ClientButton({
-  ref,
   props,
   variant,
   size,
@@ -18,7 +17,6 @@ export default function ClientButton({
   fetchText,
   asChild = false,
 }: {
-  ref: React.ForwardedRef<HTMLButtonElement>
   props: ButtonProps
   variant: VariantProps<typeof buttonVariants>['variant']
   size: VariantProps<typeof buttonVariants>['size']
@@ -42,7 +40,6 @@ export default function ClientButton({
         },
       }}
       className={cn(buttonVariants({ variant, size, className }))}
-      ref={ref}
       {...props}
       disabled={props.disabled || fetching}
     >

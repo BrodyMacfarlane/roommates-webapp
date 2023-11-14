@@ -7,6 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table.string('email', 255).unique().notNullable()
+      table.string('nickname', 15).defaultTo('User').nullable()
       table.boolean('is_email_confirmed').defaultTo(false).notNullable()
       table.string('password', 10000).notNullable()
       table.string('remember_me_token')

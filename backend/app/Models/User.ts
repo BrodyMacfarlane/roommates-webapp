@@ -1,13 +1,19 @@
 import { DateTime } from 'luxon'
 import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
 import Hash from '@ioc:Adonis/Core/Hash'
+import CamelCaseNamingStrategy from 'App/Strategies/CamelCase'
 
 export default class User extends BaseModel {
+  public static namingStrategy = new CamelCaseNamingStrategy()
+
   @column({ isPrimary: true })
   public id: number
 
   @column()
   public email: string
+
+  @column()
+  public nickname?: string
 
   @column()
   public isEmailConfirmed: boolean

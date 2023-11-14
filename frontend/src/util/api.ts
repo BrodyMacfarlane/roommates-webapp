@@ -6,7 +6,7 @@ export const apiAxios = axios.create({
   baseURL:
     process.env.NEXT_PUBLIC_ENV === 'prod'
       ? 'https://api.room8s.app/'
-      : 'http://localhost:3333',
+      : 'http://localhost:3333/',
 })
 
 export const apiFetcher = (url: string) =>

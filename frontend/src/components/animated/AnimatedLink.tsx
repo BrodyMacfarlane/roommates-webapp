@@ -5,7 +5,7 @@ import { ButtonProps, buttonVariants } from '@/components/animated/button'
 import { cn } from '@/lib/utils'
 import { MotionProps, motion } from 'framer-motion'
 
-const AnimatedLink = function ({
+export default function AnimatedLink({
   linkProps,
   buttonProps = { variant: 'default', size: 'default', className: '' },
   motionProps,
@@ -46,5 +46,3 @@ const AnimatedLink = function ({
     </motion.div>
   )
 }
-
-export default motion(AnimatedLink)

@@ -7,6 +7,8 @@ import { cn } from '@/lib/utils'
 import NavLinks from '@/components/nav/NavLinks'
 import { HiMenuAlt3 } from 'react-icons/hi'
 import MenuSheet from '@/components/sheets/MenuSheet'
+import NavButtons from '@/components/nav/NavButtons'
+import AccountSheet from './sheets/AccountSheet'
 
 export default function Navbar() {
   return (
@@ -28,19 +30,12 @@ export default function Navbar() {
         </div>
         <div className="hidden md:flex items-center gap-6">
           <div className="flex items-center gap-4">
-            <AnimatedLink
-              linkProps={{ href: '/login' }}
-              buttonProps={{ variant: 'secondary' }}
-            >
-              Login
-            </AnimatedLink>
-            <AnimatedLink linkProps={{ href: '/signup' }}>
-              Get Started
-            </AnimatedLink>
+            <NavButtons />
             <ThemeToggle />
           </div>
         </div>
-        <div className="md:hidden">
+        <div className="flex gap-4 md:hidden">
+          <AccountSheet />
           <MenuSheet />
         </div>
       </div>

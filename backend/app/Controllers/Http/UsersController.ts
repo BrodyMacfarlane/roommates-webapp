@@ -8,27 +8,32 @@ export default class UsersController {
     const email = request.input('email')
     const password = request.input('password')
 
-    await auth.use('web').attempt(email, password)
+    const res = await auth.use('web').attempt(email, password)
+    return response.status(200).send(res)
+  }
+
+  public async logout({ auth, response }: HttpContextContract) {
+    await auth.use('web').logout()
     return response.status(200)
   }
 
   public async create(ctx: HttpContextContract) {
-    const email = ctx.request.input('email')
-    const password = ctx.request.input('password')
-
-    await ctx.request.validate({ schema: new CreateUserValidator(ctx).schema })
+    const { email, password, nickname } = await ctx.request.validate({
+      schema: new CreateUserValidator(ctx).schema,
+    })
 
     const newUser = new User()
     newUser.email = email
     newUser.password = password
+    newUser.nickname = nickname
     await newUser.save()
-    await ctx.auth.use('web').login(newUser)
-    return ctx.response.status(200)
+    const res = await ctx.auth.use('web').login(newUser)
+    return ctx.response.status(200).send(res)
   }
 
   public async loggedInUser({ auth, response }: HttpContextContract) {
     await auth.use('web').check()
-    if (auth.isLoggedIn) {
+    if (auth.isLoggedIn && auth.user) {
       response.send(auth.user)
     } else {
       return response.status(401)

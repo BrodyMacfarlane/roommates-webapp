@@ -39,6 +39,12 @@ const formSchema = z
     email: z.string().email({
       message: 'Please enter a valid email address.',
     }),
+    nickname: z
+      .string()
+      .max(15, {
+        message: 'Nickname cannot be longer than 15 characters.',
+      })
+      .optional(),
     password: z
       .string()
       .min(
@@ -74,6 +80,7 @@ export default function SignUpForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
+      nickname: '',
       password: '',
       confirmPassword: '',
       terms: false,
@@ -85,6 +92,7 @@ export default function SignUpForm() {
   const email = form.watch('email')
   const password = form.watch('password')
   const confirmPassword = form.watch('confirmPassword')
+  const nickname = form.watch('nickname')
   const terms = form.watch('terms')
   const router = useRouter()
   const query = useSearchParams()
@@ -97,6 +105,7 @@ export default function SignUpForm() {
     try {
       const response = await apiAxios.post('/user', {
         email,
+        nickname,
         password,
         password_confirmation: confirmPassword,
         terms,
@@ -161,6 +170,26 @@ export default function SignUpForm() {
                     <Input
                       placeholder="Email Address"
                       autoComplete="email"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="nickname"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Nickname{' '}
+                    <span className="text-muted-foreground">- Optional</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Nickname"
+                      autoComplete="given-name"
                       {...field}
                     />
                   </FormControl>

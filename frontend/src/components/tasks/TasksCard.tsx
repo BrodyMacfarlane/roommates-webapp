@@ -20,7 +20,7 @@ export default function TasksCard() {
                 'group text-primary flex items-center gap-2 justify-end'
               }
             >
-              <span className="group-hover:max-w-full group-hover:opacity-100 opacity-0 max-w-0 text-sm overflow-hidden whitespace-nowrap transition-[max-width,opacity] duration-300">
+              <span className="hidden md:block group-hover:max-w-full group-hover:opacity-100 opacity-0 max-w-0 text-sm overflow-hidden whitespace-nowrap transition-[max-width,opacity] duration-300">
                 Create a new Task
               </span>
               <span className="text-4xl text-primary">
