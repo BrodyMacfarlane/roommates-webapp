@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import Link from 'next/link'
-import { Button, buttonVariants } from '@/components/ui/button'
+import AnimatedLink from '@/components/animated/AnimatedLink'
+import { Button, buttonVariants } from '@/components/animated/button'
 import { cn } from '@/lib/utils'
 import NavLinks from '@/components/nav/NavLinks'
 import { HiMenuAlt3 } from 'react-icons/hi'
@@ -27,15 +28,15 @@ export default function Navbar() {
         </div>
         <div className="hidden md:flex items-center gap-6">
           <div className="flex items-center gap-4">
-            <Link
-              href="/login"
-              className={buttonVariants({ variant: 'secondary' })}
+            <AnimatedLink
+              linkProps={{ href: '/login' }}
+              buttonProps={{ variant: 'secondary' }}
             >
               Login
-            </Link>
-            <Link href="/signup" className={buttonVariants({})}>
+            </AnimatedLink>
+            <AnimatedLink linkProps={{ href: '/signup' }}>
               Get Started
-            </Link>
+            </AnimatedLink>
             <ThemeToggle />
           </div>
         </div>

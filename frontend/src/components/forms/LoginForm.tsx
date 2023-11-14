@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/animated/button'
 
 import {
   Form,
@@ -28,6 +28,7 @@ import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import FormError from './FormError'
 import { apiAxios } from '@/util/api'
+import AnimatedLink from '../animated/AnimatedLink'
 
 const formSchema = z.object({
   email: z.string().min(1, {
@@ -195,15 +196,15 @@ export default function SignInForm() {
               </p>
             </div>
             <div>
-              <Link
-                href="/signup"
-                className={cn(
-                  'w-full md:text-base',
-                  buttonVariants({ variant: 'secondary' })
-                )}
+              <AnimatedLink
+                linkProps={{ href: '/signup' }}
+                buttonProps={{
+                  className: 'w-full md:text-base',
+                  variant: 'secondary',
+                }}
               >
                 Create an Account
-              </Link>
+              </AnimatedLink>
             </div>
           </form>
         </Form>

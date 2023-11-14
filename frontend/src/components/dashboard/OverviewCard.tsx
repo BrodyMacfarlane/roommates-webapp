@@ -3,7 +3,7 @@ import { child } from '@/util/animation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { HiArrowNarrowRight } from 'react-icons/hi'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/animated/button'
 
 export default function OverviewCard() {
   return (

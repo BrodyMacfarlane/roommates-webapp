@@ -11,7 +11,7 @@ import {
   SheetClose,
   SheetTitle,
 } from '@/components/ui/sheet'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 import navigation from '@/data/navigation.json'
 import Link from 'next/link'
 import { Card } from '../ui/card'
@@ -47,7 +47,7 @@ export default function MenuSheet() {
                       href={navLink.href}
                       className="w-full"
                     >
-                      <Card className="my-2">
+                      <Card variant="flat" className="my-2">
                         <p className="w-full text-lg">{navLink.name}</p>
                         <p className="text-muted-foreground text-sm">
                           {navLink.description}
@@ -63,7 +63,7 @@ export default function MenuSheet() {
             {navigation.desktop.navbar.links.map((navLink) => (
               <div key={navLink.name}>
                 <Link key={navLink.name} href={navLink.href} className="w-full">
-                  <Card className="bg-primary/10">
+                  <Card variant="flat" className="bg-primary/10">
                     <div>
                       <p className="w-full text-lg font-semibold text-primary">
                         {navLink.name}

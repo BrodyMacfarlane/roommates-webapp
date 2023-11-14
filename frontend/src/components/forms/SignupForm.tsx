@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/animated/button'
 
 import {
   Form,
@@ -32,6 +32,7 @@ import validator from 'validator'
 import { passwordValidate } from '@/util/validation'
 import useSwr from 'swr'
 import { apiAxios } from '@/util/api'
+import AnimatedLink from '../animated/AnimatedLink'
 
 const formSchema = z
   .object({
@@ -263,15 +264,15 @@ export default function SignUpForm() {
               </p>
             </div>
             <div>
-              <Link
-                href="/login"
-                className={cn(
-                  'w-full md:text-base',
-                  buttonVariants({ variant: 'secondary' })
-                )}
+              <AnimatedLink
+                linkProps={{ href: '/login' }}
+                buttonProps={{
+                  className: 'w-full md:text-base',
+                  variant: 'secondary',
+                }}
               >
                 Log In
-              </Link>
+              </AnimatedLink>
             </div>
           </form>
         </Form>

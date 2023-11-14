@@ -6,7 +6,10 @@ export default function GeoFence() {
     <main className="relative">
       <section>
         <h1 className="sr-only">Geo Fence Easter Egg</h1>
-        <Card className="min-h-[80vh] flex flex-col justify-center text-center space-y-4">
+        <Card
+          variant="flat"
+          className="min-h-[80vh] flex flex-col justify-center text-center space-y-4"
+        >
           <GeoFenceClientPage />
         </Card>
       </section>

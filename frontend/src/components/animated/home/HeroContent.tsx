@@ -1,10 +1,11 @@
 'use client'
 
-import { buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@/components/animated/button'
 import { cn } from '@/lib/utils'
 import { child, container } from '@/util/animation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import AnimatedLink from '@/components/animated/AnimatedLink'
 
 export default function HeroContent() {
   return (
@@ -26,18 +27,22 @@ export default function HeroContent() {
         variants={child}
         className="flex justify-center items-center gap-2"
       >
-        <Link
-          href="/signup"
-          className={cn(
-            buttonVariants({ size: 'lg' }),
-            'bg-white text-primary hover:bg-slate-100 hover:text-roommates-blue dark:hover:text-roommates-blue'
-          )}
+        <AnimatedLink
+          linkProps={{ href: '/signup' }}
+          buttonProps={{
+            className:
+              'bg-white text-primary hover:bg-slate-100 hover:text-roommates-blue dark:hover:text-roommates-blue',
+            size: 'lg',
+          }}
         >
           Get Started
-        </Link>
-        <Link href="/about" className={buttonVariants({ size: 'lg' })}>
+        </AnimatedLink>
+        <AnimatedLink
+          linkProps={{ href: '/about' }}
+          buttonProps={{ size: 'lg' }}
+        >
           Learn More
-        </Link>
+        </AnimatedLink>
       </motion.div>
       <motion.div variants={child} className="space-y-2">
         <p className="text-white/60 text-center font-light text-sm">

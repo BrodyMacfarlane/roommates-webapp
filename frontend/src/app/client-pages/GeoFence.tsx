@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/animated/button'
 import { useCallback, useEffect, useState } from 'react'
 import { HiLocationMarker } from 'react-icons/hi'
 

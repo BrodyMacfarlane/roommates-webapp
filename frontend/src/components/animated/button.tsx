@@ -1,8 +1,11 @@
 import * as React from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
+import { HTMLMotionProps, motion } from 'framer-motion'
 
 import { cn } from '@/lib/utils'
+import { Loader2 } from 'lucide-react'
+import ClientButton from '../ui/client/button'
 
 const buttonVariants = cva(
   'inline-flex whitespace-nowrap items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
@@ -35,19 +38,36 @@ const buttonVariants = cva(
 )
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends HTMLMotionProps<'button'>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
+  fetching?: boolean
+  fetchText?: string
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : 'button'
+  (
+    {
+      className,
+      asChild = false,
+      variant,
+      size,
+      fetching = false,
+      fetchText,
+      ...props
+    },
+    ref
+  ) => {
     return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+      <ClientButton
+        className={className}
+        variant={variant}
+        size={size}
+        fetching={fetching}
+        fetchText={fetchText}
         ref={ref}
-        {...props}
+        props={props}
+        asChild={asChild}
       />
     )
   }
