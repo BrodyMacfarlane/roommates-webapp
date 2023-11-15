@@ -89,13 +89,13 @@ const SheetHeader = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      'relative flex-shrink-[0] p-6 pb-2 bg-white flex flex-col space-y-2 text-center sm:text-left',
+      'relative flex-shrink-[0] p-6 pb-2 bg-background flex flex-col space-y-2 text-center sm:text-left',
       className
     )}
     {...props}
   >
     {children}
-    <div className="pointer-events-none absolute z-[1] left-0 -bottom-12 bg-gradient-to-b from-white to-transparent h-12 w-full" />
+    <div className="pointer-events-none absolute z-[1] left-0 -bottom-9 bg-gradient-to-b from-background to-transparent h-9 w-full" />
   </div>
 )
 SheetHeader.displayName = 'SheetHeader'
@@ -107,12 +107,12 @@ const SheetFooter = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      'relative flex-shrink-[0] p-6 pt-2 bg-primary flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
+      'relative flex-shrink-[0] px-6 pt-4 pb-4 bg-primary flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
       className
     )}
     {...props}
   >
-    <div className="pointer-events-none absolute z-[1] left-0 -top-12 bg-gradient-to-t from-white to-transparent h-12 w-full" />
+    <div className="pointer-events-none absolute z-[1] left-0 -top-12 bg-gradient-to-t from-background to-transparent h-12 w-full" />
     {children}
   </div>
 )

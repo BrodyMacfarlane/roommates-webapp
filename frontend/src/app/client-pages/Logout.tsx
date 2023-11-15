@@ -15,7 +15,7 @@ import Image from 'next/image'
 function LogoutContainer({ isAuth }: { isAuth: boolean | null }) {
   return (
     <div className="sm:col-span-2 lg:col-span-1 h-full">
-      <div className="mx-auto bg-white w-full h-full flex flex-col gap-2 text-center justify-center col-start-1 lg:col-start-2 col-span-2 lg:col-span-1 py-12 md:py-24 lg:py-0 sm:px-8 lg:px-12">
+      <div className="mx-auto bg-background w-full h-full flex flex-col gap-2 text-center justify-center col-start-1 lg:col-start-2 col-span-2 lg:col-span-1 py-12 md:py-24 lg:py-0 sm:px-8 lg:px-12">
         <div className="flex flex-col gap-2 my-4">
           <LogoutContent isAuth={isAuth} />
         </div>

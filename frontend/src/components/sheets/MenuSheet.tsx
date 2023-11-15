@@ -111,7 +111,7 @@ export default function MenuSheet() {
             <Link
               href="/signup"
               className={cn(
-                'w-full',
+                'w-full !bg-white !text-primary',
                 buttonVariants({ size: 'lg', variant: 'secondary' })
               )}
             >
