@@ -107,26 +107,28 @@ export default function MenuSheet() {
           </div>
         </div>
         <SheetFooter>
-          <div className="space-y-2 w-full">
-            <Link
-              href="/signup"
-              className={cn(
-                'w-full !bg-white !text-primary',
-                buttonVariants({ size: 'lg', variant: 'secondary' })
-              )}
-            >
-              Get Started
-            </Link>
-            <Link
-              href="/login"
-              className={cn(
-                'w-full',
-                buttonVariants({ size: 'lg', variant: 'default' })
-              )}
-            >
-              Login
-            </Link>
-          </div>
+          {!auth && (
+            <div className="space-y-2 w-full">
+              <Link
+                href="/signup"
+                className={cn(
+                  'w-full !bg-white !text-primary',
+                  buttonVariants({ size: 'lg', variant: 'secondary' })
+                )}
+              >
+                Get Started
+              </Link>
+              <Link
+                href="/login"
+                className={cn(
+                  'w-full',
+                  buttonVariants({ size: 'lg', variant: 'default' })
+                )}
+              >
+                Login
+              </Link>
+            </div>
+          )}
         </SheetFooter>
       </SheetContent>
     </Sheet>
