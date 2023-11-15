@@ -3,7 +3,7 @@
 import { useAuthContext } from '@/state/context/AuthContext'
 import { apiAxios } from '@/util/api'
 import { Metadata } from 'next'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import Quiggo from '@/assets/img/quiggo.jpg'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Loader } from 'lucide-react'
@@ -79,16 +79,16 @@ function LogoutContent({ isAuth }: { isAuth: boolean | null }) {
 export default function LogoutClientPage() {
   const { auth, setAuth } = useAuthContext()
 
-  async function logout() {
+  const logout = useCallback(async (): Promise<void> => {
     const res = await apiAxios.post('logout')
     if (res.status === 200) setAuth(false)
-  }
+  }, [setAuth])
 
   useEffect(() => {
     if (auth) {
       logout()
     }
-  }, [auth])
+  }, [auth, logout])
 
   return (
     <main className="sm:bg-slate-50">

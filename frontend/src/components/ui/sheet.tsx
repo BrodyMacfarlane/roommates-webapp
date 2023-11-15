@@ -25,7 +25,7 @@ const SheetOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SheetPrimitive.Overlay
     className={cn(
-      'fixed inset-0 z-50 bg-primary/10 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+      'fixed inset-0 z-50 bg-primary/10 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
       className
     )}
     {...props}
@@ -35,7 +35,7 @@ const SheetOverlay = React.forwardRef<
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
 
 const sheetVariants = cva(
-  'fixed z-50 gap-4 bg-background p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500',
+  'fixed z-50 bg-background shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500',
   {
     variants: {
       side: {
@@ -65,7 +65,11 @@ const SheetContent = React.forwardRef<
     <SheetOverlay />
     <SheetPrimitive.Content
       ref={ref}
-      className={cn(sheetVariants({ side }), className)}
+      className={cn(
+        'flex flex-col h-full justify-between',
+        sheetVariants({ side }),
+        className
+      )}
       {...props}
     >
       {children}
@@ -80,29 +84,37 @@ SheetContent.displayName = SheetPrimitive.Content.displayName
 
 const SheetHeader = ({
   className,
+  children,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      'flex flex-col space-y-2 text-center sm:text-left',
+      'relative flex-shrink-[0] p-6 pb-2 bg-white flex flex-col space-y-2 text-center sm:text-left',
       className
     )}
     {...props}
-  />
+  >
+    {children}
+    <div className="pointer-events-none absolute z-[1] left-0 -bottom-12 bg-gradient-to-b from-white to-transparent h-12 w-full" />
+  </div>
 )
 SheetHeader.displayName = 'SheetHeader'
 
 const SheetFooter = ({
   className,
+  children,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
+      'relative flex-shrink-[0] p-6 pt-2 bg-primary flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
       className
     )}
     {...props}
-  />
+  >
+    <div className="pointer-events-none absolute z-[1] left-0 -top-12 bg-gradient-to-t from-white to-transparent h-12 w-full" />
+    {children}
+  </div>
 )
 SheetFooter.displayName = 'SheetFooter'
 

@@ -34,7 +34,8 @@ export default function Navbar() {
             <ThemeToggle />
           </div>
         </div>
-        <div className="flex gap-4 md:hidden">
+        <div className="flex items-center gap-4 md:hidden">
+          <ThemeToggle />
           <AccountSheet />
           <MenuSheet />
         </div>

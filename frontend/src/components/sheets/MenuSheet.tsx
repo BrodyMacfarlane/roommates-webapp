@@ -13,14 +13,15 @@ import {
   SheetClose,
   SheetTitle,
 } from '@/components/ui/sheet'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import navigation from '@/data/navigation.json'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Card } from '../ui/card'
 import { useAuthContext } from '@/state/context/AuthContext'
-import { useOpenSheetContext } from '../context/navbar/OpenSheetContext'
-import AnimatedLink from '../animated/AnimatedLink'
+import { useOpenSheetContext } from '@/components/context/navbar/OpenSheetContext'
+import AnimatedLink from '@/components/animated/AnimatedLink'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 export default function MenuSheet() {
   const { auth } = useAuthContext()
@@ -56,7 +57,7 @@ export default function MenuSheet() {
           </SheetTitle>
           <SheetDescription></SheetDescription>
         </SheetHeader>
-        <div className="py-3">
+        <div className="relative flex-grow overflow-scroll p-6">
           <div className="space-y-6">
             {navigation.desktop.navbar.menus.map((navMenu) => {
               if (!navMenu.auth || (auth && navMenu.auth)) {
@@ -106,23 +107,25 @@ export default function MenuSheet() {
           </div>
         </div>
         <SheetFooter>
-          <div className="space-y-2">
-            <AnimatedLink
-              linkProps={{ href: '/login' }}
-              buttonProps={{ className: 'w-full', size: 'lg' }}
-            >
-              Login
-            </AnimatedLink>
-            <AnimatedLink
-              linkProps={{ href: '/signup' }}
-              buttonProps={{
-                className: 'w-full',
-                variant: 'secondary',
-                size: 'lg',
-              }}
+          <div className="space-y-2 w-full">
+            <Link
+              href="/signup"
+              className={cn(
+                'w-full',
+                buttonVariants({ size: 'lg', variant: 'secondary' })
+              )}
             >
               Get Started
-            </AnimatedLink>
+            </Link>
+            <Link
+              href="/login"
+              className={cn(
+                'w-full',
+                buttonVariants({ size: 'lg', variant: 'default' })
+              )}
+            >
+              Login
+            </Link>
           </div>
         </SheetFooter>
       </SheetContent>

@@ -12,7 +12,7 @@ import {
   SheetClose,
   SheetTitle,
 } from '@/components/ui/sheet'
-import { Button } from '@/components/animated/button'
+import { Button } from '@/components/ui/button'
 import { useAuthContext } from '@/state/context/AuthContext'
 import { useOpenSheetContext } from '../context/navbar/OpenSheetContext'
 import { FaUserCircle } from 'react-icons/fa'
