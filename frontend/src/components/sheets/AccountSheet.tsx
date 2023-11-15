@@ -20,6 +20,8 @@ import { useState } from 'react'
 import { apiAxios } from '@/util/api'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
+import { child } from '@/util/animation'
 
 export default function AccountSheet() {
   const { setAuth, authUser } = useAuthContext()
@@ -43,16 +45,18 @@ export default function AccountSheet() {
   if (authUser)
     return (
       <Sheet open={openSheet === 'account'} onOpenChange={handleOpenChange}>
-        <SheetTrigger className="group" asChild>
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex justify-center items-center gap-1"
-          >
-            <FaUserCircle className="w-4 h-4" />
-            <span className="text-sm">{authUser?.nickname}</span>
-          </Button>
-        </SheetTrigger>
+        <motion.div variants={child} initial="hidden" animate="visible">
+          <SheetTrigger className="group" asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex justify-center items-center gap-1"
+            >
+              <FaUserCircle className="w-4 h-4" />
+              <span className="text-sm">{authUser?.nickname}</span>
+            </Button>
+          </SheetTrigger>
+        </motion.div>
         <SheetContent>
           <SheetHeader>
             <SheetTitle>

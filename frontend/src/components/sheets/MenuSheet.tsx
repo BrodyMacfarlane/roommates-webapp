@@ -106,8 +106,8 @@ export default function MenuSheet() {
             ))}
           </div>
         </div>
-        <SheetFooter>
-          {!auth && (
+        {!auth && (
+          <SheetFooter>
             <div className="space-y-2 w-full">
               <Link
                 href="/signup"
@@ -128,8 +128,8 @@ export default function MenuSheet() {
                 Login
               </Link>
             </div>
-          )}
-        </SheetFooter>
+          </SheetFooter>
+        )}
       </SheetContent>
     </Sheet>
   )
