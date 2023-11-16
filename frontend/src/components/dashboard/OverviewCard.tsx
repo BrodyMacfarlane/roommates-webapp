@@ -1,5 +1,5 @@
 import { Card } from '@/components/ui/card'
-import { child } from '@/util/animation'
+import { bounceToRight, child } from '@/util/animation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { HiArrowNarrowRight } from 'react-icons/hi'
@@ -17,12 +17,14 @@ export default function OverviewCard() {
             </p>
           </div>
           <div className="hidden sm:block">
-            <Link href="/tasks" className="flex items-center gap-2  text-sm">
-              Add or manage tasks{' '}
-              <span className="text-xl">
-                <HiArrowNarrowRight />
-              </span>
-            </Link>
+            <motion.div initial="rest" whileHover="hover" animate="rest">
+              <Link href="/tasks" className="flex items-center gap-2  text-sm">
+                Add or manage tasks{' '}
+                <motion.span variants={bounceToRight} className="text-xl">
+                  <HiArrowNarrowRight />
+                </motion.span>
+              </Link>
+            </motion.div>
           </div>
         </div>
         <Card variant="flat" className="space-y-2">

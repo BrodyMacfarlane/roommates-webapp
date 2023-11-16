@@ -1,7 +1,7 @@
 'use client'
 
 import { Card } from '@/components/ui/card'
-import { child } from '@/util/animation'
+import { bounceFadeMaxW, child } from '@/util/animation'
 import { motion } from 'framer-motion'
 import { HiPlusCircle } from 'react-icons/hi'
 
@@ -15,18 +15,25 @@ export default function TasksCard() {
             <p className="text-muted-foreground">Your current tasks.</p>
           </div>
           <div>
-            <button
+            <motion.button
+              initial="rest"
+              animate="rest"
+              whileHover="hover"
               className={
-                'group text-primary flex items-center gap-2 justify-end'
+                'relative text-primary flex items-center gap-2 justify-end'
               }
             >
-              <span className="hidden md:block group-hover:max-w-full group-hover:opacity-100 opacity-0 max-w-0 text-sm overflow-hidden whitespace-nowrap transition-[max-width,opacity] duration-300">
+              {/* <span className="hidden md:block group-hover:max-w-full group-hover:opacity-100 opacity-0 max-w-0 text-sm overflow-hidden whitespace-nowrap transition-[max-width,opacity] duration-300"> */}
+              <motion.span
+                className="relative z-[1] hidden md:block text-sm overflow-hidden whitespace-nowrap"
+                variants={bounceFadeMaxW}
+              >
                 Create a new Task
-              </span>
-              <span className="text-4xl text-primary">
+              </motion.span>
+              <span className="relative z-[2] text-4xl text-primary">
                 <HiPlusCircle />
               </span>
-            </button>
+            </motion.button>
           </div>
         </div>
         <Card variant="flat" className="space-y-2">

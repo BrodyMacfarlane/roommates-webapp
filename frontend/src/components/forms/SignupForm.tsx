@@ -33,6 +33,7 @@ import { passwordValidate } from '@/util/validation'
 import useSwr from 'swr'
 import { apiAxios } from '@/util/api'
 import AnimatedLink from '../animated/AnimatedLink'
+import { useAuthContext } from '@/state/context/AuthContext'
 
 const formSchema = z
   .object({
@@ -97,6 +98,7 @@ export default function SignUpForm() {
   const router = useRouter()
   const query = useSearchParams()
   const redirectUrl = query.get('redirectUrl')
+  const { setAuthUser } = useAuthContext()
 
   async function onSubmit() {
     const { email, password, terms, confirmPassword } = form.getValues()
@@ -111,9 +113,10 @@ export default function SignUpForm() {
         terms,
       })
 
-      if (response.status === 200)
+      if (response.status === 200) {
+        setAuthUser(response.data)
         return router.push(redirectUrl ? redirectUrl : '/dashboard')
-      else {
+      } else {
         setSignUpError(
           'Error occurred during account creation. Please try again later.'
         )

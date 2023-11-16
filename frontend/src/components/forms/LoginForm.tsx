@@ -24,11 +24,9 @@ import { useEffect, useState } from 'react'
 
 import ForgotPasswordModal from '@/components/modals/ForgotPassword'
 import Image from 'next/image'
-import { cn } from '@/lib/utils'
-import Link from 'next/link'
-import FormError from './FormError'
+import FormError from '@/components/forms/FormError'
 import { apiAxios } from '@/util/api'
-import AnimatedLink from '../animated/AnimatedLink'
+import AnimatedLink from '@/components/animated/AnimatedLink'
 import { AuthUser } from '@/state/context/AuthContext'
 import { useAuthContext } from '@/state/context/AuthContext'
 
@@ -43,7 +41,7 @@ const formSchema = z.object({
 })
 
 export default function SignInForm() {
-  const { setAuth, setAuthUser } = useAuthContext()
+  const { setAuthUser } = useAuthContext()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

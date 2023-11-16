@@ -25,3 +25,6 @@ Route.get('/logged_in_user', 'UsersController.loggedInUser')
 Route.post('/user', 'UsersController.create')
 Route.post('/login', 'UsersController.login')
 Route.post('/logout', 'UsersController.logout')
+
+Route.post('/responsibility', 'ResponsibilitiesController.create')
+Route.get('/responsibilities', 'ResponsibilitiesController.get')

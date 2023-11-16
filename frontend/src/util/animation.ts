@@ -57,3 +57,45 @@ export const enterFromSide: Variants = {
     },
   },
 }
+
+export const bounceToRight: Variants = {
+  rest: {
+    x: 0,
+    transition: {
+      type: 'spring',
+      damping: 12,
+      stiffness: 200,
+    },
+  },
+  hover: {
+    x: 5,
+    transition: {
+      type: 'spring',
+      damping: 12,
+      stiffness: 200,
+    },
+  },
+}
+
+export const bounceFadeMaxW: Variants = {
+  rest: {
+    x: 30,
+    maxWidth: '0%',
+    opacity: 0,
+    transition: {
+      type: 'spring',
+      damping: 12,
+      stiffness: 200,
+    },
+  },
+  hover: {
+    x: 0,
+    maxWidth: '100%',
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      damping: 12,
+      stiffness: 200,
+    },
+  },
+}

@@ -12,6 +12,9 @@ export default class Responsibility extends BaseModel {
   public name: string
 
   @column()
+  public emoji?: string
+
+  @column()
   public description?: string
 
   @column.dateTime({ autoCreate: true })

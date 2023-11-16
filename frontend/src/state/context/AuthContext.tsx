@@ -49,8 +49,6 @@ export function AuthWrapper({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (authUser) {
       setAuth(true)
-    } else {
-      setAuth(false)
     }
   }, [authUser])
 

@@ -11,6 +11,8 @@ export default class extends BaseSchema {
 
       table.string('name').notNullable()
 
+      table.string('emoji')
+
       table.string('description')
 
       table.timestamp('created_at', { useTz: true })

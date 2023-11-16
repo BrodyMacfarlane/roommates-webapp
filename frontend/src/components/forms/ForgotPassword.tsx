@@ -70,9 +70,6 @@ export default function ForgotPasswordForm({
               </FormItem>
             )}
           />
-          <Button id="forgot-password" type="submit" className="w-full">
-            Submit
-          </Button>
         </form>
       </Form>
     </div>

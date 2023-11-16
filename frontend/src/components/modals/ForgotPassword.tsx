@@ -5,11 +5,13 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
 import ForgotPasswordForm from '@/components/forms/ForgotPassword'
+import { Button } from '@/components/ui/button'
 
 export default function ForgotPasswordModal() {
   const [passwordResetSuccessful, setPasswordResetSuccessful] = useState(
@@ -43,6 +45,11 @@ export default function ForgotPasswordModal() {
             />
           )}
         </DialogHeader>
+        <DialogFooter>
+          <Button className="w-full rounded-none" size="lg" type="submit">
+            Submit
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
