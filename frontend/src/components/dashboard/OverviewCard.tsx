@@ -4,6 +4,8 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { HiArrowNarrowRight } from 'react-icons/hi'
 import { Button } from '@/components/animated/button'
+import { cn } from '@/lib/utils'
+import { buttonVariants } from '@/components/ui/button'
 
 export default function OverviewCard() {
   return (
@@ -32,7 +34,12 @@ export default function OverviewCard() {
             You have no tasks set for today.
           </p>
         </Card>
-        <Button className="w-full sm:hidden">Add or manage your tasks</Button>
+        <Link
+          href="/tasks"
+          className={cn(buttonVariants(), 'w-full sm:hidden')}
+        >
+          Add or manage tasks
+        </Link>
       </Card>
     </motion.div>
   )

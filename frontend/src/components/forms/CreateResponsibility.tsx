@@ -167,6 +167,7 @@ export default function CreateResponsibilityForm() {
           ) : (
             <div>
               <EmojiPicker
+                autoFocusSearch={false}
                 onEmojiClick={(emoji) => setEmoji(emoji.unified)}
                 previewConfig={{ showPreview: false }}
                 width="100%"
