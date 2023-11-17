@@ -6,8 +6,14 @@ export default class CreateResponsibilityValidator {
 
   public schema = schema.create({
     name: schema.string({}, [rules.minLength(1), rules.maxLength(25)]),
-    description: schema.string({}, [rules.maxLength(255)]),
-    emoji: schema.string({}, [rules.maxLength(7)]),
+    description: schema.string.nullable({}, [rules.maxLength(255)]),
+    emoji: schema.string.nullable({}, [rules.maxLength(7), rules.nullable()]),
+    color: schema.string.nullable({}, [
+      rules.minLength(6),
+      rules.maxLength(6),
+      rules.regex(new RegExp('^[a-f0-9]{6}$')),
+      rules.nullable(),
+    ]),
   })
 
   public messages: CustomMessages = {}

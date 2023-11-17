@@ -11,9 +11,11 @@ export default class extends BaseSchema {
 
       table.string('name').notNullable()
 
-      table.string('emoji')
+      table.string('emoji').nullable()
 
-      table.string('description')
+      table.string('description').nullable()
+
+      table.string('color').nullable()
 
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })

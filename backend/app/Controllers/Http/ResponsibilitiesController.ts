@@ -17,7 +17,7 @@ export default class ResponsibilitiesController {
     await auth.use('web').check()
     if (!auth.isLoggedIn || !auth.user) return response.status(401)
 
-    const { name, description, emoji } = await request.validate({
+    const { name, description, emoji, color } = await request.validate({
       schema: new CreateResponsibilityValidator(ctx).schema,
     })
 
@@ -26,6 +26,7 @@ export default class ResponsibilitiesController {
     newResponsibility.name = name
     newResponsibility.description = description
     newResponsibility.emoji = emoji
+    newResponsibility.color = color
     const res = await newResponsibility.save()
 
     return response.status(200).send(res)

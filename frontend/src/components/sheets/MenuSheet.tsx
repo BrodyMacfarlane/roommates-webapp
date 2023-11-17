@@ -22,6 +22,7 @@ import { useAuthContext } from '@/state/context/AuthContext'
 import { useOpenSheetContext } from '@/components/context/navbar/OpenSheetContext'
 import AnimatedLink from '@/components/animated/AnimatedLink'
 import { ThemeToggle } from '@/components/ThemeToggle'
+import MobileNavItem from '../nav/MobileNavItem'
 
 export default function MenuSheet() {
   const { auth } = useAuthContext()
@@ -62,27 +63,12 @@ export default function MenuSheet() {
             {navigation.desktop.navbar.menus.map((navMenu) => {
               if (!navMenu.auth || (auth && navMenu.auth)) {
                 return (
-                  <div className="space-y-2" key={navMenu.name}>
-                    <p className="font-semibold text-xl text-primary">
-                      {navMenu.name}
-                    </p>
-                    <div className="space-y-6">
-                      {navMenu.links.map((navLink) => (
-                        <Link
-                          key={navLink.name}
-                          href={navLink.href}
-                          className="w-full"
-                        >
-                          <Card variant="flat" className="my-2">
-                            <p className="w-full text-lg">{navLink.name}</p>
-                            <p className="text-muted-foreground text-sm">
-                              {navLink.description}
-                            </p>
-                          </Card>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
+                  <MobileNavItem
+                    key={navMenu.name}
+                    name={navMenu.name}
+                    links={navMenu.links}
+                    auth={navMenu.auth}
+                  />
                 )
               }
             })}

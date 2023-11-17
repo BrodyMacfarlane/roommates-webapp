@@ -7,7 +7,11 @@ export default class CreateUserValidator {
   public schema = schema.create({
     email: schema.string({}, [rules.email(), rules.unique({ table: 'users', column: 'email' })]),
     password: schema.string({}, [rules.minLength(7), rules.confirmed()]),
-    nickname: schema.string({}, [rules.minLength(0), rules.maxLength(15)]),
+    nickname: schema.string.nullable({}, [
+      rules.minLength(0),
+      rules.maxLength(15),
+      rules.alphaNum({ allow: ['space', 'underscore', 'dash'] }),
+    ]),
   })
 
   public messages: CustomMessages = {}

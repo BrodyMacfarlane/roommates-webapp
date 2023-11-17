@@ -56,7 +56,6 @@ export default function SignInForm() {
   const [submittingForm, setSubmittingForm] = useState(false)
   const email = form.watch('email')
   const password = form.watch('password')
-  const rememberMe = form.watch('rememberMe')
   const router = useRouter()
   const query = useSearchParams()
   const redirectUrl = query.get('redirectUrl')

@@ -107,7 +107,7 @@ export default function SignUpForm() {
     try {
       const response = await apiAxios.post('/user', {
         email,
-        nickname,
+        nickname: nickname || null,
         password,
         password_confirmation: confirmPassword,
         terms,

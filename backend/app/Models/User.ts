@@ -13,7 +13,7 @@ export default class User extends BaseModel {
   public email: string
 
   @column()
-  public nickname?: string
+  public nickname: string | null
 
   @column()
   public isEmailConfirmed: boolean

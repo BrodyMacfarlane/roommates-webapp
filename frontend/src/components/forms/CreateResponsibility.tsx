@@ -23,10 +23,12 @@ import { DialogFooter } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { useTheme } from 'next-themes'
 import ResponsibilityCard from '@/components/tasks/ResponsibilityCard'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { apiAxios } from '@/util/api'
 import { Responsibility } from '@/types/Responsibility'
 import EmojiPlaceholder from '@/components/EmojiPlaceholder'
+import { HexColorPicker } from 'react-colorful'
+import { HiX } from 'react-icons/hi'
 
 const formSchema = z.object({
   name: z
@@ -37,15 +39,36 @@ const formSchema = z.object({
     .max(25, {
       message: 'Name cannot exceed 25 characters in length',
     }),
-  description: z.string().max(255, {
-    message: 'Description cannot exceed 255 characters in length.',
-  }),
-  emoji: z.string().max(7, {
-    message: 'Must be a valid emoji string.',
-  }),
+  description: z
+    .string()
+    .max(255, {
+      message: 'Description cannot exceed 255 characters in length.',
+    })
+    .optional(),
+  emoji: z
+    .string()
+    .max(7, {
+      message: 'Must be a valid emoji string.',
+    })
+    .nullable(),
+  color: z
+    .string()
+    .min(7, {
+      message: 'Must be a valid color hex.',
+    })
+    .max(7, {
+      message: 'Must be a valid color hex.',
+    })
+    .nullable(),
 })
 
-export default function CreateResponsibilityForm() {
+export default function CreateResponsibilityForm({
+  closeModal,
+  addResponsibility,
+}: {
+  closeModal: () => void
+  addResponsibility: (responsibility: Responsibility) => void
+}) {
   const emojiRef = useRef<HTMLDivElement>(null)
   const { theme } = useTheme()
   const [
@@ -61,13 +84,21 @@ export default function CreateResponsibilityForm() {
     defaultValues: {
       name: '',
       description: '',
-      emoji: '',
+      emoji: null,
+      color: null,
     },
   })
 
   const setEmoji = useCallback(
-    (emoji: string) => {
+    (emoji: string | null) => {
       form.setValue('emoji', emoji)
+    },
+    [form]
+  )
+
+  const setColor = useCallback(
+    (color: string) => {
+      form.setValue('color', color)
     },
     [form]
   )
@@ -75,20 +106,23 @@ export default function CreateResponsibilityForm() {
   const emoji = form.watch('emoji')
   const name = form.watch('name')
   const description = form.watch('description')
+  const color = form.watch('color')
 
   async function onSubmit() {
     setSubmittingForm(true)
-    const { name, description, emoji } = form.getValues()
+    const { name, description, emoji, color } = form.getValues()
 
     try {
       const response = await apiAxios.post<Responsibility>('/responsibility', {
         name,
-        description,
+        description: description || null,
         emoji,
+        color: color ? color.substring(1, 7) : null,
       })
 
       if (response.status === 200) {
-        console.log(response.data)
+        addResponsibility(response.data)
+        closeModal()
       } else {
         setCreateResponsibilityRequestError(
           'Error occurred while creating responsibility. Please try again later.'
@@ -108,7 +142,7 @@ export default function CreateResponsibilityForm() {
   }
 
   const initEmoji = useCallback(() => {
-    setEmoji('')
+    setEmoji(null)
     setEmojiDirty(true)
     setTimeout(
       () =>
@@ -119,14 +153,21 @@ export default function CreateResponsibilityForm() {
     )
   }, [emojiRef, setEmoji, setEmojiDirty])
 
+  const clearEmoji = () => {
+    setEmoji(null)
+    setEmojiDirty(false)
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 my-4">
         <div className="flex w-full justify-center items-center">
           <ResponsibilityCard
             name={name}
-            description={description}
+            description={description || null}
             emoji={emoji}
+            color={color}
+            placeholders
           />
         </div>
         <div>
@@ -171,25 +212,36 @@ export default function CreateResponsibilityForm() {
           />
         </div>
         <div>
-          <FormLabel optional className="w-full">
+          <FormLabel optional className="w-full" htmlFor="emoji-selector">
             Emoji
           </FormLabel>
           {emoji || !emojiDirty ? (
             <div className="my-1">
-              <button onClick={initEmoji}>
-                <div className="flex rounded-md p-4 border shadow-sm">
-                  {emojiDirty ? (
-                    <Image
-                      alt=""
-                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-                      width={32}
-                      height={32}
-                    />
-                  ) : (
-                    <EmojiPlaceholder name={'-'} />
-                  )}
-                </div>
-              </button>
+              <div className="relative inline-block">
+                <button id="emoji-selector" onClick={initEmoji}>
+                  <div className="flex rounded-md p-4 border shadow-sm">
+                    {emojiDirty ? (
+                      <Image
+                        alt=""
+                        src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                        width={32}
+                        height={32}
+                      />
+                    ) : (
+                      <EmojiPlaceholder name={'-'} />
+                    )}
+                  </div>
+                </button>
+                {emojiDirty && (
+                  <button
+                    onClick={clearEmoji}
+                    type="button"
+                    className="absolute z-[2] -right-2 -top-2 bg-white border shadow-sm text-primary text-sm rounded-full p-1"
+                  >
+                    <HiX />
+                  </button>
+                )}
+              </div>
             </div>
           ) : (
             <div className="my-1" ref={emojiRef}>
@@ -212,11 +264,24 @@ export default function CreateResponsibilityForm() {
             </div>
           )}
         </div>
+        <div>
+          <FormLabel optional className="w-full">
+            Color
+          </FormLabel>
+          <div className="my-1">
+            <HexColorPicker
+              color={color ? color : '#ffffff'}
+              onChange={setColor}
+            />
+          </div>
+        </div>
         <DialogFooter>
           <Button
             className="w-full shadow-md h-16 rounded-none"
             size="lg"
             type="submit"
+            fetching={submittingForm}
+            fetchText="Creating Responsibility"
           >
             Create Responsibility
           </Button>

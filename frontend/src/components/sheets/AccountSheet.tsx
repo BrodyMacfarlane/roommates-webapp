@@ -53,7 +53,9 @@ export default function AccountSheet() {
               className="flex justify-center items-center gap-1"
             >
               <FaUserCircle className="w-4 h-4" />
-              <span className="text-sm">{authUser?.nickname}</span>
+              {authUser?.nickname && (
+                <span className="text-sm">{authUser.nickname}</span>
+              )}
             </Button>
           </SheetTrigger>
         </motion.div>

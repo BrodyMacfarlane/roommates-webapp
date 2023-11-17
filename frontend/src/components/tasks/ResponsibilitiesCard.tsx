@@ -7,9 +7,9 @@ import ResponsibilitiesModal from '@/components/modals/Responsibilities'
 import useSwr from 'swr'
 import { Responsibility } from '@/types/Responsibility'
 import { apiFetcher } from '@/util/api'
-import { useEffect } from 'react'
 import ResponsibilityCard from '@/components/tasks/ResponsibilityCard'
-import { Skeleton } from '../ui/skeleton'
+import { Skeleton } from '@/components/ui/skeleton'
+import { useEffect, useState } from 'react'
 
 function ResponsibilityData({
   data,
@@ -22,13 +22,14 @@ function ResponsibilityData({
 }) {
   if (data && data.length) {
     return (
-      <div className="flex flex-wrap gap-4 items-center justify-center">
+      <div className="flex flex-wrap gap-2 md:gap-4 items-center justify-center">
         {data.map((responsibility) => (
           <ResponsibilityCard
             key={responsibility.id}
             name={responsibility.name}
             description={responsibility.description}
             emoji={responsibility.emoji}
+            color={responsibility.color ? `#${responsibility.color}` : null}
           />
         ))}
       </div>
@@ -43,10 +44,19 @@ function ResponsibilityData({
 }
 
 export default function ResponsibilitiesCard() {
+  const [responsibilities, setResponsibilities] = useState<Responsibility[]>([])
   const { data, isLoading, error } = useSwr<Responsibility[]>(
     'responsibilities',
     apiFetcher
   )
+
+  const addResponsibility = (responsibility: Responsibility) => {
+    setResponsibilities((rs) => rs.concat(responsibility))
+  }
+
+  useEffect(() => {
+    if (data) setResponsibilities(data)
+  }, [data])
 
   return (
     <motion.div variants={child}>
@@ -59,10 +69,14 @@ export default function ResponsibilitiesCard() {
             </p>
           </div>
           <div>
-            <ResponsibilitiesModal />
+            <ResponsibilitiesModal addResponsibility={addResponsibility} />
           </div>
         </div>
-        <ResponsibilityData data={data} isLoading={isLoading} error={error} />
+        <ResponsibilityData
+          data={responsibilities}
+          isLoading={isLoading}
+          error={error}
+        />
       </Card>
     </motion.div>
   )

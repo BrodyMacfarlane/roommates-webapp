@@ -6,7 +6,7 @@
           "name": "App",
           "links": [
             {
-              "name": "Dashboard",
+              "name": "Home",
               "description": "View your tasks along with their respective historical data.",
               "href": "/dashboard"
             },

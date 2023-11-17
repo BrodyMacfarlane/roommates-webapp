@@ -99,3 +99,22 @@ export const bounceFadeMaxW: Variants = {
     },
   },
 }
+
+export const scale: Variants = {
+  rest: {
+    scale: 1,
+    transition: {
+      type: 'spring',
+      damping: 12,
+      stiffness: 200,
+    },
+  },
+  hover: {
+    scale: 1.1,
+    transition: {
+      type: 'spring',
+      damping: 12,
+      stiffness: 200,
+    },
+  },
+}
