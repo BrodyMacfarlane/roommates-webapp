@@ -23,9 +23,10 @@ import { DialogFooter } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { useTheme } from 'next-themes'
 import ResponsibilityCard from '@/components/tasks/ResponsibilityCard'
-import { useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { apiAxios } from '@/util/api'
 import { Responsibility } from '@/types/Responsibility'
+import EmojiPlaceholder from '@/components/EmojiPlaceholder'
 
 const formSchema = z.object({
   name: z
@@ -45,12 +46,15 @@ const formSchema = z.object({
 })
 
 export default function CreateResponsibilityForm() {
+  const emojiRef = useRef<HTMLDivElement>(null)
   const { theme } = useTheme()
   const [
     createResponsibilityRequestError,
     setCreateResponsibilityRequestError,
   ] = useState<string | null>(null)
   const [submittingForm, setSubmittingForm] = useState(false)
+
+  const [emojiDirty, setEmojiDirty] = useState<boolean>(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -61,9 +65,12 @@ export default function CreateResponsibilityForm() {
     },
   })
 
-  const setEmoji = (emoji: string) => {
-    form.setValue('emoji', emoji)
-  }
+  const setEmoji = useCallback(
+    (emoji: string) => {
+      form.setValue('emoji', emoji)
+    },
+    [form]
+  )
 
   const emoji = form.watch('emoji')
   const name = form.watch('name')
@@ -100,14 +107,28 @@ export default function CreateResponsibilityForm() {
     }
   }
 
+  const initEmoji = useCallback(() => {
+    setEmoji('')
+    setEmojiDirty(true)
+    setTimeout(
+      () =>
+        emojiRef.current?.lastElementChild?.scrollIntoView({
+          behavior: 'smooth',
+        }),
+      10
+    )
+  }, [emojiRef, setEmoji, setEmojiDirty])
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 my-4">
-        <ResponsibilityCard
-          name={name}
-          description={description}
-          emoji={emoji}
-        />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 my-4">
+        <div className="flex w-full justify-center items-center">
+          <ResponsibilityCard
+            name={name}
+            description={description}
+            emoji={emoji}
+          />
+        </div>
         <div>
           <FormError errorMessage={createResponsibilityRequestError} />
           <FormField
@@ -135,7 +156,7 @@ export default function CreateResponsibilityForm() {
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Description</FormLabel>
+                <FormLabel optional>Description</FormLabel>
                 <FormControl>
                   <Input
                     type="text"
@@ -150,28 +171,43 @@ export default function CreateResponsibilityForm() {
           />
         </div>
         <div>
-          <FormLabel className="w-full">Emoji</FormLabel>
-          {emoji ? (
-            <div>
-              <button onClick={() => setEmoji('')}>
+          <FormLabel optional className="w-full">
+            Emoji
+          </FormLabel>
+          {emoji || !emojiDirty ? (
+            <div className="my-1">
+              <button onClick={initEmoji}>
                 <div className="flex rounded-md p-4 border shadow-sm">
-                  <Image
-                    alt=""
-                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-                    width={32}
-                    height={32}
-                  />
+                  {emojiDirty ? (
+                    <Image
+                      alt=""
+                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                      width={32}
+                      height={32}
+                    />
+                  ) : (
+                    <EmojiPlaceholder name={'-'} />
+                  )}
                 </div>
               </button>
             </div>
           ) : (
-            <div>
+            <div className="my-1" ref={emojiRef}>
               <EmojiPicker
                 autoFocusSearch={false}
                 onEmojiClick={(emoji) => setEmoji(emoji.unified)}
                 previewConfig={{ showPreview: false }}
                 width="100%"
-                theme={theme ? (theme as Theme) : ('auto' as Theme)}
+                theme={
+                  theme
+                    ? theme === 'system'
+                      ? window.matchMedia('(prefers-color-scheme: light)')
+                          .matches
+                        ? ('light' as Theme)
+                        : ('dark' as Theme)
+                      : (theme as Theme)
+                    : ('auto' as Theme)
+                }
               />
             </div>
           )}

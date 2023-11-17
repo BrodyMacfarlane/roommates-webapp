@@ -185,10 +185,7 @@ export default function SignUpForm() {
               name="nickname"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    Nickname{' '}
-                    <span className="text-muted-foreground">- Optional</span>
-                  </FormLabel>
+                  <FormLabel optional>Nickname</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Nickname"

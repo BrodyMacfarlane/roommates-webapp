@@ -2,6 +2,7 @@
 
 import { Card } from '@/components/ui/card'
 import Image from 'next/image'
+import EmojiPlaceholder from '@/components/EmojiPlaceholder'
 
 export default function ResponsibilityCard({
   name,
@@ -27,7 +28,7 @@ export default function ResponsibilityCard({
             draggable={false}
           />
         ) : (
-          <div className="w-8 h-8" />
+          <EmojiPlaceholder name={name} />
         )}
       </div>
       <div className="space-y-1 select-none">

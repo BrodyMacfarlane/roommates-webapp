@@ -45,7 +45,7 @@ const DialogContent = React.forwardRef<
       {...props}
     >
       <div className="pointer-events-none fixed z-[6] left-0 top-0 bg-gradient-to-b from-background to-transparent h-9 w-full" />
-      <div className="relative max-h-[calc(100vh-12rem)] px-6 md:px-12 overflow-scroll py-20">
+      <div className="relative max-h-[calc(100vh-12rem)] px-6 md:px-12 overflow-scroll pb-24 pt-12">
         {children}
       </div>
       <DialogPrimitive.Close className="absolute right-6 top-6 rounded-sm ring-offset-background transition-colors text-primary hover:text-roommates-blue-hover focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
