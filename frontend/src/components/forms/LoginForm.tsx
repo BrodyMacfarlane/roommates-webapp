@@ -97,7 +97,7 @@ export default function SignInForm() {
   }, [email, password])
 
   return (
-    <div className="space-y-4 mx-auto w-full max-w-lg flex flex-col gap-2 text-center justify-center col-start-1 lg:col-start-2 col-span-2 lg:col-span-1 my-2 lg:my-12 py-2 sm:py-20 sm:px-8 lg:px-12">
+    <div className="space-y-4 mx-auto w-full max-w-xl flex flex-col gap-2 text-center justify-center col-start-1 lg:col-start-2 col-span-2 lg:col-span-1 my-2 lg:my-12 py-2 sm:py-20 sm:px-8 lg:px-12">
       <div className="space-y-2">
         <Image
           className="mx-auto"

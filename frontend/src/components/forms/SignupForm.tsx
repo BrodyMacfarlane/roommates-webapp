@@ -139,7 +139,7 @@ export default function SignUpForm() {
   }, [email, password, confirmPassword, terms])
 
   return (
-    <div className="space-y-4 mx-auto w-full max-w-lg flex flex-col gap-2 text-center justify-center col-start-1 lg:col-start-2 col-span-2 lg:col-span-1 my-2 lg:my-12 py-2 sm:py-20 sm:px-8 lg:px-12">
+    <div className="space-y-4 mx-auto w-full max-w-xl flex flex-col gap-2 text-center justify-center col-start-1 lg:col-start-2 col-span-2 lg:col-span-1 my-2 lg:my-12 py-2 sm:py-20 sm:px-8 lg:px-12">
       <div className="space-y-2">
         <Image
           className="mx-auto"
@@ -237,7 +237,7 @@ export default function SignUpForm() {
               <FormField
                 control={form.control}
                 name="terms"
-                render={({ field }) => (
+                render={({ field, fieldState }) => (
                   <FormItem>
                     <div className="flex items-center gap-3">
                       <FormControl>
@@ -245,6 +245,11 @@ export default function SignUpForm() {
                           id="terms"
                           value={field.value}
                           onChange={field.onChange}
+                          error={
+                            fieldState.error
+                              ? true
+                              : false && fieldState.invalid
+                          }
                         />
                       </FormControl>
                       <div className="w-full flex justify-between items-center !mt-0">
@@ -255,14 +260,16 @@ export default function SignUpForm() {
                           I agree to the Roommates&nbsp;
                           <Link
                             className="text-roommates-blue dark:text-white/90 font-semibold hover:border-b-2 border-roommates-purple"
-                            href="/"
+                            href="/legal?section=terms"
+                            target="_blank"
                           >
                             Terms of Use
                           </Link>
                           &nbsp;and&nbsp;
                           <Link
                             className="text-roommates-blue dark:text-white/90 font-semibold hover:border-b-2 border-roommates-purple"
-                            href="/"
+                            href="/legal?section=privacy"
+                            target="_blank"
                           >
                             Privacy Policy
                           </Link>
