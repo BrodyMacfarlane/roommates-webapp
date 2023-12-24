@@ -16,6 +16,9 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        handwriting: ['var(--font-handwriting)'],
+      },
       colors: {
         'roommates-purple': {
           DEFAULT: '#62c',

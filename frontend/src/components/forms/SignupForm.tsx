@@ -233,7 +233,7 @@ export default function SignUpForm() {
                 </FormItem>
               )}
             />
-            <div className="py-2">
+            <div className="py-3">
               <FormField
                 control={form.control}
                 name="terms"

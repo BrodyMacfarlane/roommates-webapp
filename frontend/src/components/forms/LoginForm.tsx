@@ -156,30 +156,32 @@ export default function SignInForm() {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="rememberMe"
-              render={({ field }) => (
-                <FormItem className="flex items-center gap-2">
-                  <FormControl>
-                    <Checkbox
-                      id="remember"
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="w-full flex justify-between items-center !mt-0">
-                    <FormLabel
-                      htmlFor="remember"
-                      className="text-sm font-normal"
-                    >
-                      Remember Me
-                    </FormLabel>
-                    <ForgotPasswordModal />
-                  </div>
-                </FormItem>
-              )}
-            />
+            <div className="py-1">
+              <FormField
+                control={form.control}
+                name="rememberMe"
+                render={({ field }) => (
+                  <FormItem className="flex items-center gap-2">
+                    <FormControl>
+                      <Checkbox
+                        id="remember"
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="w-full flex justify-between items-center !mt-0">
+                      <FormLabel
+                        htmlFor="remember"
+                        className="text-sm font-normal"
+                      >
+                        Remember Me
+                      </FormLabel>
+                      <ForgotPasswordModal />
+                    </div>
+                  </FormItem>
+                )}
+              />
+            </div>
             <div>
               <Button
                 id="signin"

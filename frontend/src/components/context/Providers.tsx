@@ -3,6 +3,7 @@ import { ThemeProvider } from '@/components/context/ThemeProvider'
 import { AuthWrapper } from '@/state/context/AuthContext'
 import { ReactNode } from 'react'
 import { OpenSheetWrapper } from './navbar/OpenSheetContext'
+import { HideNavbarWrapper } from './navbar/HideNavbarContext'
 
 export default function Providers({ children }: { children: ReactNode }) {
   return (
@@ -13,7 +14,9 @@ export default function Providers({ children }: { children: ReactNode }) {
       disableTransitionOnChange
     >
       <AuthWrapper>
-        <OpenSheetWrapper>{children}</OpenSheetWrapper>
+        <OpenSheetWrapper>
+          <HideNavbarWrapper>{children}</HideNavbarWrapper>
+        </OpenSheetWrapper>
       </AuthWrapper>
     </ThemeProvider>
   )

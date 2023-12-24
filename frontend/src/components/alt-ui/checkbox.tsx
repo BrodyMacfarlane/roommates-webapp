@@ -21,7 +21,7 @@ export default function Checkbox({
     <input
       id={id}
       className={cn(
-        'h-6 w-6 text-primary focus:ring-primary border-input shadow-sm rounded',
+        'h-5 w-5 text-primary focus:ring-primary border-input shadow-sm rounded',
         className,
         error && 'border-destructive focus:ring-destructive'
       )}
