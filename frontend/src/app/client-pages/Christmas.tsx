@@ -492,7 +492,7 @@ const TextSlide = ({
     const contentDuration =
       typeof content[contentIndex] === 'string'
         ? (content[contentIndex] as string).split(' ').length *
-          (speedPerWord * 1000)
+        (speedPerWord * 1000)
         : 2500
 
     const fullDuration =
@@ -692,17 +692,21 @@ export default function ChristmasClientPage() {
   const [audioIsMute, setAudioIsMute] = useState<boolean>(true)
   const [titleScreen, setTitleScreen] = useState(true) //change back to true
 
-  const [audio, setAudio] = useState<HTMLAudioElement>(
-    new Audio(`${baseAudioDir}/${audioFiles[currentAudioIndex]}`)
-  )
+  const [audio, setAudio] = useState<HTMLAudioElement | undefined>()
 
   useEffect(() => {
+    if (Audio) setAudio(new Audio(`${baseAudioDir}/${audioFiles[currentAudioIndex]}`))
+  }, [])
+
+  useEffect(() => {
+    if (!audio) return
     const newAudio = audio
     newAudio.muted = audioIsMute
     setAudio(newAudio)
-  }, [audioIsMute, titleScreen])
+  }, [audio, audioIsMute, titleScreen])
 
   useEffect(() => {
+    if (!audio) return
     const listener = () => {
       const newAudioIndex = (currentAudioIndex + 1) % audioFiles.length
       const newAudio = audio
@@ -718,7 +722,7 @@ export default function ChristmasClientPage() {
   }, [audio, audioIsPaused, currentAudioIndex])
 
   useEffect(() => {
-    if (!titleScreen) audio.play()
+    if (!titleScreen && audio) audio.play()
   }, [audio, titleScreen, currentAudioIndex])
 
   return (
