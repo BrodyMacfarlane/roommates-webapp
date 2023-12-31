@@ -3,7 +3,7 @@
 import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion'
 import localFont from '@next/font/local'
 
-import Image from 'next/image'
+import NextImage from 'next/image'
 
 import { SpeakerIcon, SpeakerMuteIcon } from '@/components/icons/speaker'
 import {
@@ -22,36 +22,19 @@ import {
   christmasImageContainer,
 } from '@/util/animation'
 import { Button } from '@/components/animated/button'
-import { Card } from '@/components/ui/card'
 import { HiPlay } from 'react-icons/hi'
 import { Separator } from '@/components/ui/separator'
 import moment from 'moment'
 import { cn } from '@/lib/utils'
-
-type ImageOptions = {
-  direction: 'vertical' | 'horizontal'
-  src: string
-}
-
-type ImageCollectionOptions = {
-  description?: string
-  images: ImageOptions[]
-}
-
-type TextOptions = {
-  text: string
-  animation?: 'stagger'
-}
-
-type SlideshowImageContent = ImageCollectionOptions // Filepath or ImageOptions object
-type SlideshowTextContent = string | TextOptions // Text or TextOptions object
-
-type SlideshowCollection = {
-  type: 'text' | 'imageCollection'
-  content: SlideshowTextContent[] | SlideshowImageContent[]
-  title?: string
-}
-type Slideshow = SlideshowCollection[]
+import {
+  ImageCollectionOptions,
+  ImageOptions,
+  SlideshowCollection,
+  SlideshowImageContent,
+  SlideshowTextContent,
+  TextOptions,
+  slideshow,
+} from '@/data/christmas-slideshow'
 
 const polaroidBgColors = [
   'bg-[#fdf9f1]',
@@ -71,84 +54,84 @@ const handwriting = localFont({
 })
 
 const stayOnTextDuration = 1 * 1000
-const stayOnImageDuration = 3 * 1000
+const stayOnImageDuration = 4 * 1000
 const speedPerWord = 0.4
-const speedPerImage = 3 * 1000
+const speedPerImage = 4 * 1000
 
 const baseAudioDir = 'christmas/audio'
 const audioFiles = ['just because.mp3', 'lover.mp3', 'only.mp3']
 
-// const slideshow: Slideshow = [
+const imagePreloadArray: string[][] = slideshow.map((collectionOrText) => {
+  if (collectionOrText.type === 'imageCollection') {
+    let flatArr = []
+    const deepArr = (collectionOrText.content as ImageCollectionOptions[]).map(
+      (imageContent) => imageContent.images.map((image) => image.src)
+    )
+    for (const imgArr of deepArr) {
+      for (const img of imgArr) {
+        flatArr.push(img)
+      }
+    }
+    return flatArr
+  } else return collectionOrText.content.map((v) => '')
+})
 
-// ]
+const PreloadedImages = ({
+  slideIndex,
+  setFirstThreeImagesOnNextSlideArePreloaded,
+}: {
+  slideIndex: number
+  setFirstThreeImagesOnNextSlideArePreloaded: Dispatch<SetStateAction<boolean>>
+}) => {
+  const imagesToPreload = imagePreloadArray[slideIndex + 1]
+  const [loadedImages, setLoadedImages] = useState([false, false, false])
 
-const slideshow: Slideshow = [
-  {
-    type: 'text',
-    content: [
-      '',
-      'Hi baber.',
-      'I got overwhelmed with ideas and attempted a few iterations of this kind of thing lol.',
-      'This format seemed like a happy ✨marriage✨ (hehe) between effort and satisfaction.',
-      'I hope you enjoy.',
-      '',
-      '',
-      'Say.. do you remember what happened Last Christmas?',
-      '(Fortunately, we were both spared from the same fate as George Michael lol #RIP 💔🕺)',
-    ],
-  },
-  {
-    type: 'imageCollection',
-    title: 'Christmas Day 2022',
-    content: [
-      {
-        description: 'Facetiming ur mom.',
-        images: [
-          {
-            direction: 'vertical',
-            src: '2022-12-25',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    type: 'imageCollection',
-    title: 'January 2022',
-    content: [
-      {
-        description: 'Point Defiance & Gig Harbor',
-        images: [
-          {
-            direction: 'horizontal',
-            src: '2023-1-1',
-          },
-          {
-            direction: 'vertical',
-            src: '2023-1-1 2',
-          },
-          {
-            direction: 'vertical',
-            src: '2023-1-1 3',
-          },
-        ],
-      },
-      {
-        description: 'Skiing @ Snoqualmie',
-        images: [
-          {
-            direction: 'vertical',
-            src: '2023-1-3',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    type: 'text',
-    content: ['Feel free to come back any time. ❤️'],
-  },
-]
+  useEffect(() => {
+    if (imagesToPreload)
+      setLoadedImages(
+        imagesToPreload.slice(0, 3).map((imgSrc) => (imgSrc ? false : true))
+      )
+  }, [imagesToPreload])
+
+  useEffect(() => {
+    if (loadedImages.every((v) => v === true)) {
+      setFirstThreeImagesOnNextSlideArePreloaded(true)
+    }
+  }, [loadedImages, setFirstThreeImagesOnNextSlideArePreloaded])
+
+  function toggleImageLoaded(i: number) {
+    if (i <= 2) {
+      setLoadedImages((prev) => {
+        let n = [...prev]
+        n[i] = true
+        return n
+      })
+    }
+  }
+
+  if (imagesToPreload)
+    return (
+      <div className="relative hidden">
+        {imagesToPreload.map((imgSrc, i) => {
+          if (imgSrc) {
+            return (
+              <NextImage
+                onLoad={() => toggleImageLoaded(i)}
+                alt=""
+                key={`preload-${imgSrc}`}
+                src={`/christmas/img/${imgSrc}.jpeg`}
+                fill
+                sizes="(min-width: 0px) 40svh, 80px"
+                priority={i <= 5}
+              />
+            )
+          }
+        })}
+      </div>
+    )
+
+  return <></>
+}
 
 const toggleAudioIsMute = ({
   setAudioIsPaused,
@@ -237,16 +220,16 @@ const ImageCard = ({
               : 'w-[40svh] h-[30svh] md:w-[60svh] md:h-[40svh]'
           )}
         >
-          <Image
+          <NextImage
             src={`/christmas/img/${image.src}.jpeg`}
             alt=""
             fill
             className={cn(
-              'w-full h-full',
+              'w-full h-full object-contain',
               variant === 'single' ? 'px-4 pt-8' : 'px-2 pt-4'
             )}
+            sizes="(min-width: 0px) 40svh, 80px"
             priority
-            objectFit="contain"
           />
         </div>
         <div className="py-2 md:py-6 text-center">
@@ -273,7 +256,7 @@ const SingleImage = ({ images }: { images: ImageOptions[] }) => {
       className="relative w-full h-full"
       initial="initial"
       animate="animate"
-      exit={{ x: -1200 }}
+      exit={{ x: -1500 }}
       transition={{ duration: 0.75 }}
     >
       <ImageCard
@@ -305,12 +288,12 @@ const DoubleImage = ({ images }: { images: ImageOptions[] }) => {
       className="relative w-full h-full"
       initial="initial"
       animate="animate"
-      exit={{ x: -1200 }}
+      exit={{ x: -1500 }}
       transition={{ duration: 0.75 }}
       variants={christmasImageContainer({})}
     >
       <ImageCard
-        position={{ x: 0, y: 0 }}
+        position={{ x: '-15vw', y: -100 }}
         key={images[0].src}
         image={images[0]}
         variant="double"
@@ -318,7 +301,7 @@ const DoubleImage = ({ images }: { images: ImageOptions[] }) => {
         animationProps={animationProps}
       />
       <ImageCard
-        position={{ x: 0, y: 0 }}
+        position={{ x: '15vw', y: 75 }}
         key={images[1].src}
         image={images[1]}
         variant="double"
@@ -348,7 +331,7 @@ const TripleImage = ({ images }: { images: ImageOptions[] }) => {
       className="relative w-full h-full"
       initial="initial"
       animate="animate"
-      exit={{ x: -1200 }}
+      exit={{ x: -1500 }}
       transition={{ duration: 0.75 }}
       variants={christmasImageContainer({})}
     >
@@ -424,8 +407,6 @@ const ImageSlide = ({
 
     const fullDuration = contentDuration + stayOnImageDuration
 
-    console.log('fullDuration', fullDuration)
-
     const contentLength = content.length
     const timer = setTimeout(() => {
       if (contentIndex + 1 < contentLength) setContentIndex((i) => i + 1)
@@ -436,7 +417,11 @@ const ImageSlide = ({
   }, [contentIndex])
 
   return (
-    <div className="w-full h-full">
+    <motion.div
+      className="absolute w-[100vw] h-[100svh] overflow-hidden"
+      transition={{ duration: 0.75 }}
+      exit={{ x: -1500 }}
+    >
       <AnimatePresence>
         <motion.div
           key={title}
@@ -469,7 +454,7 @@ const ImageSlide = ({
           images={content[contentIndex].images}
         />
       </AnimatePresence>
-    </div>
+    </motion.div>
   )
 }
 
@@ -492,7 +477,7 @@ const TextSlide = ({
     const contentDuration =
       typeof content[contentIndex] === 'string'
         ? (content[contentIndex] as string).split(' ').length *
-        (speedPerWord * 1000)
+          (speedPerWord * 1000)
         : 2500
 
     const fullDuration =
@@ -577,27 +562,53 @@ const SlideComponent = ({
 
 const SlideshowAndText = () => {
   const [slideIndex, setSlideIndex] = useState<number>(0)
+  const [nextSlideCalled, setNextSlideCalled] = useState<boolean>(false)
+  const [
+    firstThreeImagesOnNextSlideArePreloaded,
+    setFirstThreeImagesOnNextSlideArePreloaded,
+  ] = useState<boolean>(false)
+
   const nextSlide = useCallback(() => {
-    if (slideIndex + 1 < slideshow.length) setSlideIndex((i) => i + 1)
+    setNextSlideCalled(true)
   }, [slideshow, slideIndex])
+
+  useEffect(() => {
+    if (
+      nextSlideCalled &&
+      firstThreeImagesOnNextSlideArePreloaded &&
+      slideIndex + 1 < slideshow.length
+    ) {
+      setNextSlideCalled(false)
+      setFirstThreeImagesOnNextSlideArePreloaded(false)
+      setSlideIndex((i) => i + 1)
+    }
+  }, [
+    nextSlideCalled,
+    firstThreeImagesOnNextSlideArePreloaded,
+    slideIndex,
+    slideshow,
+  ])
 
   return (
     <div
       className={`${handwriting.variable} flex min-h-[100svh] overflow-hidden justify-center items-center font-handwriting uppercase text-2xl md:text-3xl`}
     >
       <AnimatePresence>
-        <motion.div
-          key={slideshow[slideIndex].content.map((c) => c.toString()).join('')}
-          exit={{ x: -1200 }}
-          transition={{ duration: 0.75 }}
-        >
-          <SlideComponent
-            type={slideshow[slideIndex].type}
-            content={slideshow[slideIndex].content}
-            nextSlide={nextSlide}
-            title={slideshow[slideIndex].title}
-          />
-        </motion.div>
+        <SlideComponent
+          key={`${slideIndex}-${slideshow[slideIndex].content
+            .map((c) => c.toString())
+            .join('')}`}
+          type={slideshow[slideIndex].type}
+          content={slideshow[slideIndex].content}
+          nextSlide={nextSlide}
+          title={slideshow[slideIndex].title}
+        />
+        <PreloadedImages
+          slideIndex={slideIndex}
+          setFirstThreeImagesOnNextSlideArePreloaded={
+            setFirstThreeImagesOnNextSlideArePreloaded
+          }
+        />
       </AnimatePresence>
     </div>
   )
@@ -617,6 +628,8 @@ const TitleScreen = ({
   ) : (
     <SpeakerIcon className="h-4 w-4" />
   )
+
+  // preloadNextSetOfImages(-1)
 
   return (
     <motion.div
@@ -690,12 +703,13 @@ export default function ChristmasClientPage() {
   const [audioIsPaused, setAudioIsPaused] = useState<boolean>(true)
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0)
   const [audioIsMute, setAudioIsMute] = useState<boolean>(true)
-  const [titleScreen, setTitleScreen] = useState(true) //change back to true
+  const [titleScreen, setTitleScreen] = useState(true)
 
   const [audio, setAudio] = useState<HTMLAudioElement | undefined>()
 
   useEffect(() => {
-    if (Audio) setAudio(new Audio(`${baseAudioDir}/${audioFiles[currentAudioIndex]}`))
+    if (Audio)
+      setAudio(new Audio(`${baseAudioDir}/${audioFiles[currentAudioIndex]}`))
   }, [])
 
   useEffect(() => {
