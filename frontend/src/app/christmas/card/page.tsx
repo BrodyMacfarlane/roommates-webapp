@@ -13,7 +13,9 @@ const handwriting = localFont({
 
 export default function ChristmasCard() {
   return (
-    <main className={`${handwriting.variable} font-handwriting uppercase text-2xl md:text-3xl`}>
+    <main
+      className={`${handwriting.variable} font-handwriting uppercase text-2xl md:text-3xl`}
+    >
       <ChristmasCardClientPage />
     </main>
   )
