@@ -27,9 +27,9 @@
               "href": "/tools/contribution-calc"
             },
             {
-              "name": "Geo Fence",
-              "description": "Super secret easter egg.  Must be super, super sexy to view this page.",
-              "href": "/tools/geo-fence"
+              "name": "DJ App",
+              "description": "Create the perfect playlist for your event and allow others to contribute to the vibe.",
+              "href": "/tools/dj"
             }
           ],
           "auth": false
