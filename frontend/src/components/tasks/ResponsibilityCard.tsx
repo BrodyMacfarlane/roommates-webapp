@@ -48,8 +48,8 @@ export default function ResponsibilityCard({
           {description
             ? description
             : placeholders
-            ? 'The tri-colored doggo.'
-            : ''}
+              ? 'The tri-colored doggo.'
+              : ''}
         </p>
       </div>
     </Card>

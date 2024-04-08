@@ -134,8 +134,8 @@ export default function CreateResponsibilityForm({
         err.response.data.error
           ? err.response.data.error
           : err.message
-          ? err.message
-          : err
+            ? err.message
+            : err
       )
       setSubmittingForm(false)
     }
