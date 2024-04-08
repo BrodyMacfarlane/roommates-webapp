@@ -1,7 +1,7 @@
 'use client'
 
 import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion'
-import localFont from '@next/font/local'
+import localFont from "next/font/local"
 
 import NextImage from 'next/image'
 
