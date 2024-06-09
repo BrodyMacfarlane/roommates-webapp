@@ -1,9 +1,12 @@
 module.exports = {
-  apps: [{
-    script: '/root/roommates-webapp/current/backend/build/server.js',
-    watch: ['/root/roommates-webapp/current/backend'],
-    ignore_watch: ['/root/roommates-webapp/current/backend/node_modules']
-  }],
+  apps: [
+    {
+      name: 'Prod Backend',
+      script: '/root/roommates-webapp/current/backend/build/server.js',
+      watch: ['/root/roommates-webapp/current/backend'],
+      ignore_watch: ['/root/roommates-webapp/current/backend/node_modules'],
+    },
+  ],
   deploy: {
     production: {
       user: 'root',
@@ -12,8 +15,9 @@ module.exports = {
       repo: 'git@github.com:BrodyMacfarlane/roommates-webapp.git',
       path: '/root/roommates-webapp',
       'pre-deploy-local': '',
-      'post-deploy': 'cd /root/roommates-webapp/current/backend && npm install && npm run build && cd build && cp /root/roommates-webapp/backend/.env .env && npm ci --production && pm2 stop all && pm2 delete all && pm2 start /root/roommates-webapp/current/ecosystem.config.js',
-      'pre-setup': ''
-    }
-  }
-};
+      'post-deploy':
+        'cd /root/roommates-webapp/current/backend && npm install && npm run build && cd build && cp /root/roommates-webapp/backend/.env .env && npm ci --production && pm2 startOrRestart /root/roommates-webapp/current/ecosystem.config.js',
+      'pre-setup': '',
+    },
+  },
+}
