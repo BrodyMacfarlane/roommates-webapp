@@ -5,8 +5,27 @@ import { bounceFadeMaxW, child } from '@/util/animation'
 import { motion } from 'framer-motion'
 import { HiPlusCircle } from 'react-icons/hi'
 import PlusButton from '@/components/animated/PlusButton'
+import TasksModal from '../modals/Tasks'
+import useSwr from 'swr'
+import { apiFetcher } from '@/util/api'
+import { useEffect, useState } from 'react'
+import { Task } from '@/types/Task'
 
 export default function TasksCard() {
+  const [tasks, setTasks] = useState<Task[]>([])
+  const { data, isLoading, error } = useSwr<Task[]>(
+    'responsibilities',
+    apiFetcher
+  )
+
+  const addTask = (task: Task) => {
+    setTasks((ts) => ts.concat(task))
+  }
+
+  useEffect(() => {
+    if (data) setTasks(data)
+  }, [data])
+
   return (
     <motion.div variants={child}>
       <Card className="space-y-4">
@@ -16,7 +35,7 @@ export default function TasksCard() {
             <p className="text-muted-foreground">Your current tasks.</p>
           </div>
           <div>
-            <PlusButton>Create a new Task</PlusButton>
+            <TasksModal addTask={addTask} />
           </div>
         </div>
         <Card variant="flat" className="space-y-2">

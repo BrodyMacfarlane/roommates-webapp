@@ -22,6 +22,11 @@
           "name": "Tools",
           "links": [
             {
+              "name": "Breathing App",
+              "description": "Deep relaxation and meditation based on results in biofeedback.",
+              "href": "/tools/breathing"
+            },
+            {
               "name": "Contribution Calculator",
               "description": "Calculate an equitable financial contribution based on each contributor's income.",
               "href": "/tools/contribution-calc"

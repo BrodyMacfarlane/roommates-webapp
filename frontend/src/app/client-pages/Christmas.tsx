@@ -1,7 +1,7 @@
 'use client'
 
 import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion'
-import localFont from "next/font/local"
+import localFont from 'next/font/local'
 
 import NextImage from 'next/image'
 
@@ -35,6 +35,7 @@ import {
   TextOptions,
   slideshow,
 } from '@/data/christmas-slideshow'
+import HideNavbar from '@/components/invokers/HideNavbar'
 
 const polaroidBgColors = [
   'bg-[#fdf9f1]',
@@ -741,6 +742,7 @@ export default function ChristmasClientPage() {
 
   return (
     <>
+      <HideNavbar />
       <section className="relative px-0 mx-0">
         <h1 className="sr-only">Christmas/Holidays Whateva U Know</h1>
         <AnimatePresence>
