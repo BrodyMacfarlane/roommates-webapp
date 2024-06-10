@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import HideNavbar from '../invokers/HideNavbar'
 import { useViewportContext } from '@/state/context/ViewportContext'
 import { useBreathingSessionContext } from '../context/breathing/BreathingSessionContext'
 import BlobBg from '../breathing/BlobBg'
+import { cn } from '@/lib/utils'
 
 const blobs = [
   'M53.3,-45.8C64.5,-28.4,65.9,-6.5,60.1,11.6C54.3,29.7,41.2,44,23,55.8C4.9,67.6,-18.3,76.9,-35.9,70.2C-53.5,63.4,-65.4,40.5,-71,16.1C-76.7,-8.3,-76.1,-34.3,-63.2,-52C-50.4,-69.7,-25.2,-79.2,-2.1,-77.6C21,-75.9,42.1,-63.1,53.3,-45.8Z',
@@ -41,30 +42,52 @@ export function Blob({
 }) {
   const blobKeyframes = useMemo(() => generateBlobKeyframes(keyframes), [])
   const id = useMemo(() => uuidv4(), [])
+  const [isAnimating, setIsAnimating] = useState(false)
 
-  const breathingTotal = useMemo(() => {
+  const isBreathing = useMemo(() => {
     if (
       increaseInterval &&
       decreaseInterval &&
       increaseInterval > 0 &&
       decreaseInterval > 0
     ) {
-      return increaseInterval + decreaseInterval
-    } else return null
+      return true
+    } else return false
   }, [increaseInterval, decreaseInterval])
 
-  const breathingKeyTimes = useMemo(() => {
-    if (breathingTotal) {
-      return `0; ${increaseInterval! / breathingTotal}; 1`
-    } else return null
-  }, [breathingTotal])
+  useEffect(() => {
+    if (isBreathing) {
+      setIsAnimating(true)
+    }
+  }, [isBreathing])
+
+  const handleTransitionEnd = useCallback(() => {
+    setIsAnimating(!isAnimating)
+  }, [isAnimating])
+
+  useEffect(() => {
+    console.log(size, isAnimating, increaseInterval, decreaseInterval)
+  }, [size, isAnimating, increaseInterval, decreaseInterval])
 
   return (
     <svg
-      className="absolute"
+      key={`breathing-blob-${id}`}
+      className={cn(
+        'absolute',
+        isBreathing ? (isAnimating ? 'tr-full' : 'tr-small') : ''
+      )}
       width={size}
       viewBox="0 0 200 200"
       xmlns="http://www.w3.org/2000/svg"
+      style={
+        isBreathing
+          ? {
+              transition: `transform ${isAnimating ? increaseInterval : decreaseInterval}s linear`,
+              willChange: 'transform',
+            }
+          : {}
+      }
+      onTransitionEnd={handleTransitionEnd}
     >
       <defs>
         <linearGradient
@@ -97,16 +120,6 @@ export function Blob({
           keyTimes="0;0.25;0.5;0.75;1"
         />
       </path>
-
-      {breathingKeyTimes ? (
-        <animate
-          attributeName="width"
-          dur={`${increaseInterval! + decreaseInterval!}s`}
-          repeatCount="indefinite"
-          values={`${0}; ${size}; ${0}`}
-          keyTimes={breathingKeyTimes}
-        />
-      ) : null}
     </svg>
   )
 }
@@ -123,26 +136,31 @@ export default function BreathingBlobs() {
     else setBlobSize(dimensions.height)
   }, [dimensions])
 
-  return (
-    <>
-      <HideNavbar />
-      <BlobBg />
-      <div className="absolute flex justify-center items-center left-0 top-0 w-full h-full overflow-hidden">
-        <Blob
-          keyframes={blobs}
-          animationDuration={animationDuration}
-          size={blobSize}
-          colors={['#F1FFF6', '#F8DFFF']}
-          // transparent
-        />
-        <Blob
-          keyframes={blobs}
-          animationDuration={animationDuration}
-          size={blobSize}
-          increaseInterval={breathTimes.inhale}
-          decreaseInterval={breathTimes.exhale}
-        />
-      </div>
-    </>
-  )
+  const inhaleTime = useMemo(() => breathTimes.inhale, [breathTimes.inhale])
+  const exhaleTime = useMemo(() => breathTimes.exhale, [breathTimes.exhale])
+
+  if (blobSize > 0) {
+    return (
+      <>
+        <HideNavbar />
+        <BlobBg />
+        <div className="absolute flex justify-center items-center left-0 top-0 w-full h-full overflow-hidden">
+          <Blob
+            keyframes={blobs}
+            animationDuration={animationDuration}
+            size={blobSize}
+            colors={['#F1FFF6', '#F8DFFF']}
+            // transparent
+          />
+          <Blob
+            keyframes={blobs}
+            animationDuration={animationDuration}
+            size={blobSize}
+            increaseInterval={inhaleTime}
+            decreaseInterval={exhaleTime}
+          />
+        </div>
+      </>
+    )
+  }
 }

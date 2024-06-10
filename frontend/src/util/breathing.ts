@@ -11,10 +11,13 @@ export function calculateSessionLengthString(ms: number): string {
   let m = Math.floor((totalSeconds % 3600) / 60)
   let s: string | number = totalSeconds % 60
 
-  const formattedHours = h > 0 ? `${h} hours, ` : ''
-  const formattedMinutes = m > 0 ? `${m} minutes and ` : ''
+  const formattedHours = h > 0 ? `${h} hour${h === 1 ? '' : 's'}, ` : ''
+  const formattedMinutes = m > 0 ? `${m} minute${m === 1 ? '' : 's'} and ` : ''
 
-  s = s < 10 ? `${s} seconds` : `${s} seconds`
+  s =
+    s < 10
+      ? `${s} second${s === 1 ? '' : 's'}`
+      : `${s} second${s === 1 ? '' : 's'}`
 
   return `${formattedHours}${formattedMinutes}${s}`
 }
